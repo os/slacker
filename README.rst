@@ -9,7 +9,7 @@ Documentation: https://api.slack.com/
 
 About
 =====
-Requests is an Apache2 Licensed Slack API library, written in Python.
+Slacker is an Apache2 Licensed Slack API library, written in Python.
 
 Dependencies
 ============
