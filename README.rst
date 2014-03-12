@@ -1,5 +1,5 @@
 =======
-slacker
+Slacker
 =======
 
 :Info: Slacker API for Python.
