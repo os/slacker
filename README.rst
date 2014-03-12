@@ -7,7 +7,7 @@ Slacker
 
 About
 =====
-Slacker is an Apache2 Licensed Slack API Wrapper for Python.
+Slacker is an Apache 2.0 Licensed Slack API Wrapper for Python.
 
 Dependencies
 ============
