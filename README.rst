@@ -19,7 +19,9 @@ Requests_ >= version 2.2.1.
 
 Installation
 ============
-pip install git+git://github.com/os/slacker.git
+.. code-block:: bash
+
+    $ pip install git+git://github.com/os/slacker.git
 
 Examples
 ========
