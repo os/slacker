@@ -5,8 +5,6 @@ Slacker
 :Info: Slacker API for Python.
 :Author: Oktay Sancak
 
-Documentation: https://api.slack.com/
-
 About
 =====
 Slacker is an Apache2 Licensed Slack API library, written in Python.
