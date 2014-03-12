@@ -2,7 +2,7 @@
 Slacker
 =======
 
-:Info: Slacker API for Python.
+:Info: Slack API Wrapper for Python
 :Author: Oktay Sancak
 
 About
