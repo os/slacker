@@ -17,6 +17,10 @@ Requests_ >= version 2.2.1.
 
 .. _Requests: http://python-requests.org/
 
+Installation
+============
+pip install git+git://github.com/os/slacker.git
+
 Examples
 ========
 .. code-block:: python
