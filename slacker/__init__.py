@@ -15,6 +15,7 @@ class Error(Exception):
 
 class Response(object):
     def __init__(self, body):
+        self.raw = body
         self.body = json.loads(body)
         self.successful = self.body['ok']
         self.error = self.body.get('error')
