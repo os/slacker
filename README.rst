@@ -4,7 +4,8 @@ Slacker
 
 About
 =====
-Slacker is a full-featured Python interface for the Slack API.
+Slacker is a full-featured Python interface for the `Slack API 
+<https://api.slack.com/>`_.
 
 Dependencies
 ============
