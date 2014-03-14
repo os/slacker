@@ -2,6 +2,8 @@
 Slacker
 =======
 
+.. image:: https://raw.githubusercontent.com/os/slacker/master/static/slacker.jpg
+
 About
 =====
 Slacker is a full-featured Python interface for the `Slack API 
