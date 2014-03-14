@@ -2,12 +2,9 @@
 Slacker
 =======
 
-:Info: Slack API Wrapper for Python
-:Author: Oktay Sancak
-
 About
 =====
-Slacker is an Apache 2.0 Licensed Slack API Wrapper for Python.
+Slacker is a full-featured Python interface for the Slack API.
 
 Dependencies
 ============
