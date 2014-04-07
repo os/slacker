@@ -193,6 +193,14 @@ class Files(API):
             return response
 
 
+class Stars(API):
+    def list(self, user=None, count=None, page=None):
+        return self._request('stars.list',
+                             user=user,
+                             count=count,
+                             page=page)
+
+
 class Slacker(object):
     def __init__(self, token):
         self.auth = Auth(token)
@@ -202,3 +210,4 @@ class Slacker(object):
         self.chat = Chat(token)
         self.im = IM(token)
         self.files = Files(token)
+        self.stars = Stars(token)
