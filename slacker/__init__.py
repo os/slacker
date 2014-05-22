@@ -167,6 +167,9 @@ class Files(API):
                              count=count,
                              page=page)
 
+    def info(self, file, count=None, page=None):
+        return self._request('files.info', file=file, count=count, page=page)
+
     def upload(self, file,
                filetype=None, filename=None, title=None, initial_comment=None,
                channels=None):
