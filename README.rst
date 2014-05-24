@@ -31,7 +31,7 @@ Installation
 ============
 .. code-block:: bash
 
-    $ pip install git+git://github.com/os/slacker.git
+    $ pip install slacker
 
 Documentation
 =============
