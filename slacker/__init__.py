@@ -20,7 +20,7 @@ import requests
 API_BASE_URL = 'https://slack.com/api/{api}?token={token}'
 
 
-__all__ = ['Slacker', 'Error']
+__all__ = ['Slacker', 'Error', 'API']
 
 
 class Error(Exception):
