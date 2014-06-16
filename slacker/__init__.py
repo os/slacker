@@ -100,6 +100,12 @@ class Channels(API):
         return self.get('channels.mark',
                         params={'channel': channel, 'ts': ts})
 
+    def join(self, name):
+        return self.get('channels.join', params={'name': name})
+
+    def leave(self, channel):
+        return self.get('channels.leave', params={'channel': channel})
+
 
 class Chat(API):
     def post_message(self, channel, text, username=None, parse=None,
