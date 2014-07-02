@@ -106,6 +106,10 @@ class Channels(API):
     def leave(self, channel):
         return self.get('channels.leave', params={'channel': channel})
 
+    def invite(self, channel, user):
+        return self.get('channels.invite',
+                        params={'channel': channel, 'user': user})
+
 
 class Chat(API):
     def post_message(self, channel, text, username=None, parse=None,
