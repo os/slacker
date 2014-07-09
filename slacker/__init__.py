@@ -83,6 +83,9 @@ class Groups(API):
 
 
 class Channels(API):
+    def info(self, channel):
+        return self.get('channels.info', params={'channel': channel})
+
     def list(self, exclude_archived=None):
         return self.get('channels.list',
                         params={'exclude_archived': exclude_archived})
