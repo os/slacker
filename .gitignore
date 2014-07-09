@@ -4,3 +4,5 @@
 # Python
 *.pyc
 *.pyo
+dist
+slacker.egg-info
