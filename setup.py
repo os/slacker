@@ -2,7 +2,7 @@ from setuptools import setup
 
 
 setup(name='slacker',
-      version='0.1.3',
+      version='0.1.4',
       packages=['slacker'],
       description='Slack API client',
       author='Oktay Sancak',
