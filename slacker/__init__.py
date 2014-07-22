@@ -224,6 +224,11 @@ class Stars(API):
                         params={'user': user, 'count': count, 'page': page})
 
 
+class Emoji(API):
+    def list(self):
+        return self.get('emoji.list')
+
+
 class Slacker(object):
     def __init__(self, token):
         self.auth = Auth(token)
@@ -234,3 +239,4 @@ class Slacker(object):
         self.im = IM(token)
         self.files = Files(token)
         self.stars = Stars(token)
+        self.emoji = Emoji(token)
