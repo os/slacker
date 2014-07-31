@@ -131,6 +131,13 @@ class Chat(API):
                             'icon_emoji': icon_emoji
                         })
 
+    def update(self, channel, ts, text):
+        self.post('chat.update',
+                  params={'channel': channel, 'ts': ts, 'text': text})
+
+    def delete(self, channel, ts):
+        self.post('chat.delete', params={'channel': channel, 'ts': ts})
+
 
 class IM(API):
     def list(self):
