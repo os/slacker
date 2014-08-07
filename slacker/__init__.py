@@ -247,3 +247,4 @@ class Slacker(object):
         self.files = Files(token)
         self.stars = Stars(token)
         self.emoji = Emoji(token)
+        self.search = Search(token)
