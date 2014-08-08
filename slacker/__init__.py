@@ -17,7 +17,7 @@ import json
 import requests
 
 
-API_BASE_URL = 'https://slack.com/api/{api}?token={token}'
+API_BASE_URL = 'https://slack.com/api/{api}'
 
 
 __all__ = ['Slacker', 'Error', 'API']
@@ -36,12 +36,16 @@ class Response(object):
 
 
 class API(object):
-    def __init__(self, token):
+    def __init__(self, token=None):
         self.token = token
 
     def _request(self, method, api, **kwargs):
-        response = method(API_BASE_URL.format(api=api, token=self.token),
+        if self.token:
+            kwargs.setdefault('params', {})['token'] = self.token
+
+        response = method(API_BASE_URL.format(api=api),
                           **kwargs)
+
         assert response.status_code == 200
 
         response = Response(response.text)
@@ -236,15 +240,28 @@ class Emoji(API):
         return self.get('emoji.list')
 
 
+class OAuth(API):
+    def access(self, client_id, client_secret, code, redirect_uri=None):
+        return self.post('oauth.access',
+                         params={
+                            'client_id': client_id,
+                            'client_secret': client_secret,
+                            'code': code,
+                            'redirect_uri': redirect_uri
+                         })
+
+
 class Slacker(object):
+    oauth = OAuth()
+
     def __init__(self, token):
-        self.auth = Auth(token)
-        self.users = Users(token)
-        self.groups = Groups(token)
-        self.channels = Channels(token)
-        self.chat = Chat(token)
-        self.im = IM(token)
-        self.files = Files(token)
-        self.stars = Stars(token)
-        self.emoji = Emoji(token)
-        self.search = Search(token)
+        self.im = IM(token=token)
+        self.auth = Auth(token=token)
+        self.chat = Chat(token=token)
+        self.users = Users(token=token)
+        self.files = Files(token=token)
+        self.stars = Stars(token=token)
+        self.emoji = Emoji(token=token)
+        self.search = Search(token=token)
+        self.groups = Groups(token=token)
+        self.channels = Channels(token=token)
