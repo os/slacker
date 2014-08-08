@@ -17,7 +17,7 @@ import json
 import requests
 
 
-API_BASE_URL = 'https://slack.com/api/{api}?token={token}'
+API_BASE_URL = 'https://slack.com/api/{api}'
 
 
 __all__ = ['Slacker', 'Error', 'API']
@@ -36,12 +36,16 @@ class Response(object):
 
 
 class API(object):
-    def __init__(self, token):
+    def __init__(self, token=token):
         self.token = token
 
     def _request(self, method, api, **kwargs):
-        response = method(API_BASE_URL.format(api=api, token=self.token),
+        response = method(API_BASE_URL.format(api=api),
                           **kwargs)
+
+        if self.token:
+            kwargs['params']['token'] = self.token
+
         assert response.status_code == 200
 
         response = Response(response.text)
@@ -236,7 +240,20 @@ class Emoji(API):
         return self.get('emoji.list')
 
 
+class OAuth(API):
+    def access(self, client_id, client_secret, code, redirect_uri=None):
+        return self.post('oauth.access',
+                         params={
+                            'client_id': client_id,
+                            'client_secret': client_secret,
+                            'code': code,
+                            'redirect_uri': redirect_uri
+                         })
+
+
 class Slacker(object):
+    oauth = OAuth()
+
     def __init__(self, token):
         self.auth = Auth(token)
         self.users = Users(token)
