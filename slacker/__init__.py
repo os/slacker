@@ -36,15 +36,15 @@ class Response(object):
 
 
 class API(object):
-    def __init__(self, token=token):
+    def __init__(self, token=None):
         self.token = token
 
     def _request(self, method, api, **kwargs):
+        if self.token:
+            kwargs.setdefault('params', {})['token'] = self.token
+
         response = method(API_BASE_URL.format(api=api),
                           **kwargs)
-
-        if self.token:
-            kwargs['params']['token'] = self.token
 
         assert response.status_code == 200
 
