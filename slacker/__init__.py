@@ -104,36 +104,36 @@ class Channels(API):
                         })
 
     def mark(self, channel, ts):
-        return self.get('channels.mark',
-                        params={'channel': channel, 'ts': ts})
+        return self.post('channels.mark',
+                         params={'channel': channel, 'ts': ts})
 
     def join(self, name):
-        return self.get('channels.join', params={'name': name})
+        return self.post('channels.join', params={'name': name})
 
     def leave(self, channel):
-        return self.get('channels.leave', params={'channel': channel})
+        return self.post('channels.leave', params={'channel': channel})
 
     def invite(self, channel, user):
-        return self.get('channels.invite',
-                        params={'channel': channel, 'user': user})
+        return self.post('channels.invite',
+                         params={'channel': channel, 'user': user})
 
 
 class Chat(API):
     def post_message(self, channel, text, username=None, parse=None,
                      link_names=None, attachments=None, unfurl_links=None,
                      icon_url=None, icon_emoji=None):
-        return self.get('chat.postMessage',
-                        params={
-                            'channel': channel,
-                            'text': text,
-                            'username': username,
-                            'parse': parse,
-                            'link_names': link_names,
-                            'attachments': attachments,
-                            'unfurl_links': unfurl_links,
-                            'icon_url': icon_url,
-                            'icon_emoji': icon_emoji
-                        })
+        return self.post('chat.postMessage',
+                         params={
+                             'channel': channel,
+                             'text': text,
+                             'username': username,
+                             'parse': parse,
+                             'link_names': link_names,
+                             'attachments': attachments,
+                             'unfurl_links': unfurl_links,
+                             'icon_url': icon_url,
+                             'icon_emoji': icon_emoji
+                         })
 
     def update(self, channel, ts, text):
         self.post('chat.update',
