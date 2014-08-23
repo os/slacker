@@ -35,7 +35,7 @@ class Response(object):
         self.error = self.body.get('error')
 
 
-class API(object):
+class BaseAPI(object):
     def __init__(self, token=None):
         self.token = token
 
@@ -61,17 +61,25 @@ class API(object):
         return self._request(requests.post, api, **kwargs)
 
 
-class Auth(API):
+class API(BaseAPI):
+    def test(self, error=None, **kwargs):
+        if error:
+            kwargs['error'] = error
+
+        return self.get('api.test', params=kwargs)
+
+
+class Auth(BaseAPI):
     def test(self):
         return self.get('auth.test')
 
 
-class Users(API):
+class Users(BaseAPI):
     def list(self):
         return self.get('users.list')
 
 
-class Groups(API):
+class Groups(BaseAPI):
     def list(self, exclude_archived=None):
         return self.get('groups.list',
                         params={'exclude_archived': exclude_archived})
@@ -85,8 +93,19 @@ class Groups(API):
                             'count': count
                         })
 
+    def mark(self, channel, ts):
+        return self.post('groups.mark', params={'channel': channel, 'ts': ts})
 
-class Channels(API):
+    def set_purpose(self, channel, purpose):
+        return self.post('groups.setPurpose',
+                         params={'channel': channel, 'purpose': purpose})
+
+    def set_topic(self, channel, topic):
+        return self.post('groups.setTopic',
+                         params={'channel': channel, 'topic': topic})
+
+
+class Channels(BaseAPI):
     def info(self, channel):
         return self.get('channels.info', params={'channel': channel})
 
@@ -117,8 +136,16 @@ class Channels(API):
         return self.post('channels.invite',
                          params={'channel': channel, 'user': user})
 
+    def set_purpose(self, channel, purpose):
+        return self.post('channels.setPurpose',
+                         params={'channel': channel, 'purpose': purpose})
 
-class Chat(API):
+    def set_topic(self, channel, topic):
+        return self.post('channels.setTopic',
+                         params={'channel': channel, 'topic': topic})
+
+
+class Chat(BaseAPI):
     def post_message(self, channel, text, username=None, parse=None,
                      link_names=None, attachments=None, unfurl_links=None,
                      icon_url=None, icon_emoji=None):
@@ -143,7 +170,7 @@ class Chat(API):
         self.post('chat.delete', params={'channel': channel, 'ts': ts})
 
 
-class IM(API):
+class IM(BaseAPI):
     def list(self):
         return self.get('im.list')
 
@@ -156,8 +183,11 @@ class IM(API):
                             'count': count
                         })
 
+    def mark(self, channel, ts):
+        return self.post('im.mark', params={'channel': channel, 'ts': ts})
 
-class Search(API):
+
+class Search(BaseAPI):
     def all(self, query, sort=None, sort_dir=None, highlight=None, count=None,
             page=None):
         return self.get('search.all',
@@ -195,7 +225,7 @@ class Search(API):
                         })
 
 
-class Files(API):
+class Files(BaseAPI):
     def list(self, user=None, ts_from=None, ts_to=None, types=None,
              count=None, page=None):
         return self.get('files.list',
@@ -229,18 +259,18 @@ class Files(API):
                              files={'file': f})
 
 
-class Stars(API):
+class Stars(BaseAPI):
     def list(self, user=None, count=None, page=None):
         return self.get('stars.list',
                         params={'user': user, 'count': count, 'page': page})
 
 
-class Emoji(API):
+class Emoji(BaseAPI):
     def list(self):
         return self.get('emoji.list')
 
 
-class OAuth(API):
+class OAuth(BaseAPI):
     def access(self, client_id, client_secret, code, redirect_uri=None):
         return self.post('oauth.access',
                          params={
@@ -256,6 +286,7 @@ class Slacker(object):
 
     def __init__(self, token):
         self.im = IM(token=token)
+        self.api = API(token=token)
         self.auth = Auth(token=token)
         self.chat = Chat(token=token)
         self.users = Users(token=token)
