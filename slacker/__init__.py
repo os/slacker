@@ -274,10 +274,10 @@ class OAuth(BaseAPI):
     def access(self, client_id, client_secret, code, redirect_uri=None):
         return self.post('oauth.access',
                          params={
-                            'client_id': client_id,
-                            'client_secret': client_secret,
-                            'code': code,
-                            'redirect_uri': redirect_uri
+                             'client_id': client_id,
+                             'client_secret': client_secret,
+                             'code': code,
+                             'redirect_uri': redirect_uri
                          })
 
 
