@@ -17,6 +17,13 @@ import json
 import requests
 
 
+__title__ = 'slacker'
+__version__ = '0.3.1'
+__author__ = 'Oktay Sancak'
+__license__ = 'Apache 2.0'
+__copyright__ = 'Copyright 2014 Oktay Sancak'
+
+
 API_BASE_URL = 'https://slack.com/api/{api}'
 
 
