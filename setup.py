@@ -1,15 +1,13 @@
 from setuptools import setup
 
-import slacker
 
-
-setup(name=slacker.__title__,
-      version=slacker.__version__,
+setup(name='slacker',
+      version='0.3.0',
       packages=['slacker'],
       description='Slack API client',
-      author=slacker.__author__,
+      author='Oktay Sancak',
       author_email='oktaysancak@gmail.com',
       url='http://github.com/os/slacker/',
       install_requires=['requests >= 2.2.1'],
-      license=slacker.__license__,
+      license='http://www.apache.org/licenses/LICENSE-2.0',
       keywords='slack api')
