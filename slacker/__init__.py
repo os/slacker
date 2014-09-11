@@ -80,6 +80,9 @@ class Users(BaseAPI):
     def list(self):
         return self.get('users.list')
 
+    def set_active(self):
+        return self.post('users.setActive')
+
 
 class Groups(BaseAPI):
     def list(self, exclude_archived=None):
@@ -272,6 +275,16 @@ class Emoji(BaseAPI):
         return self.get('emoji.list')
 
 
+class Presence(BaseAPI):
+    PRESENCE_AWAY = 'away'
+    PRESENCE_ACTIVE = 'active'
+    PRESENCE_TYPES = (PRESENCE_AWAY, PRESENCE_ACTIVE)
+
+    def set(self, presence):
+        assert presence in self.PRESENCE_TYPES, 'Invalid presence type'
+        return self.post('presence.set', params={'presence': presence})
+
+
 class OAuth(BaseAPI):
     def access(self, client_id, client_secret, code, redirect_uri=None):
         return self.post('oauth.access',
@@ -298,3 +311,4 @@ class Slacker(object):
         self.search = Search(token=token)
         self.groups = Groups(token=token)
         self.channels = Channels(token=token)
+        self.presence = Presence(token=token)
