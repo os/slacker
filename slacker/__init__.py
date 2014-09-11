@@ -276,12 +276,12 @@ class Emoji(BaseAPI):
 
 
 class Presence(BaseAPI):
-    PRESENCE_AWAY = 'away'
-    PRESENCE_ACTIVE = 'active'
-    PRESENCE_TYPES = (PRESENCE_AWAY, PRESENCE_ACTIVE)
+    AWAY = 'away'
+    ACTIVE = 'active'
+    TYPES = (AWAY, ACTIVE)
 
     def set(self, presence):
-        assert presence in self.PRESENCE_TYPES, 'Invalid presence type'
+        assert presence in Presence.TYPES, 'Invalid presence type'
         return self.post('presence.set', params={'presence': presence})
 
 
