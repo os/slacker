@@ -98,6 +98,17 @@ class Groups(BaseAPI):
                             'count': count
                         })
 
+    def invite(self, channel, user):
+        return self.post('groups.invite',
+                         params={'channel': channel, 'user': user})
+
+    def kick(self, channel, user):
+        return self.post('groups.kick',
+                         params={'channel': channel, 'user': user})
+
+    def leave(self, channel):
+        return self.post('groups.leave', params={'channel': channel})
+
     def mark(self, channel, ts):
         return self.post('groups.mark', params={'channel': channel, 'ts': ts})
 
@@ -139,6 +150,10 @@ class Channels(BaseAPI):
 
     def invite(self, channel, user):
         return self.post('channels.invite',
+                         params={'channel': channel, 'user': user})
+
+    def kick(self, channel, user):
+        return self.post('channels.kick',
                          params={'channel': channel, 'user': user})
 
     def set_purpose(self, channel, purpose):
