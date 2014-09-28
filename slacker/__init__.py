@@ -22,7 +22,7 @@ API_BASE_URL = 'https://slack.com/api/{api}'
 
 __all__ = ['Error', 'Response', 'BaseAPI', 'API', 'Auth', 'Users', 'Groups',
            'Channels', 'Chat', 'IM', 'Search', 'Files', 'Stars', 'Emoji',
-           'OAuth', 'Slacker']
+           'Presence', 'OAuth', 'Slacker']
 
 
 class Error(Exception):
