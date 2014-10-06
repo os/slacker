@@ -77,6 +77,9 @@ class Auth(BaseAPI):
 
 
 class Users(BaseAPI):
+    def info(self, user):
+        return self.get('users.info', params={'user': user})
+
     def list(self):
         return self.get('users.list')
 
