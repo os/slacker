@@ -10,6 +10,7 @@ setup(name='slacker',
       url='http://github.com/os/slacker/',
       install_requires=['requests >= 2.2.1'],
       license='http://www.apache.org/licenses/LICENSE-2.0',
+      test_suite="tests",
       classifiers=(
           'Intended Audience :: Developers',
           'License :: OSI Approved :: Apache Software License',
