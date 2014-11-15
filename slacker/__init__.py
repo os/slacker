@@ -121,6 +121,10 @@ class Groups(BaseAPI):
     def mark(self, channel, ts):
         return self.post('groups.mark', params={'channel': channel, 'ts': ts})
 
+    def rename(self, channel, name):
+        return self.post('groups.rename',
+                         params={'channel': channel, 'name': name})
+
     def set_purpose(self, channel, purpose):
         return self.post('groups.setPurpose',
                          params={'channel': channel, 'purpose': purpose})
@@ -164,6 +168,10 @@ class Channels(BaseAPI):
     def kick(self, channel, user):
         return self.post('channels.kick',
                          params={'channel': channel, 'user': user})
+
+    def rename(self, channel, name):
+        return self.post('channels.rename',
+                         params={'channel': channel, 'name': name})
 
     def set_purpose(self, channel, purpose):
         return self.post('channels.setPurpose',
