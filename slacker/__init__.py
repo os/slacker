@@ -125,6 +125,18 @@ class Groups(BaseAPI):
         return self.post('groups.rename',
                          params={'channel': channel, 'name': name})
 
+    def archive(self, channel):
+        return self.post('groups.archive', params={'channel': channel})
+
+    def unarchive(self, channel):
+        return self.post('groups.unarchive', params={'channel': channel})
+
+    def open(self, channel):
+        return self.post('groups.open', params={'channel': channel})
+
+    def close(self, channel):
+        return self.post('groups.close', params={'channel': channel})
+
     def set_purpose(self, channel, purpose):
         return self.post('groups.setPurpose',
                          params={'channel': channel, 'purpose': purpose})
@@ -172,6 +184,12 @@ class Channels(BaseAPI):
     def rename(self, channel, name):
         return self.post('channels.rename',
                          params={'channel': channel, 'name': name})
+
+    def archive(self, channel):
+        return self.post('channels.archive', params={'channel': channel})
+
+    def unarchive(self, channel):
+        return self.post('channels.unarchive', params={'channel': channel})
 
     def set_purpose(self, channel, purpose):
         return self.post('channels.setPurpose',
@@ -222,6 +240,12 @@ class IM(BaseAPI):
 
     def mark(self, channel, ts):
         return self.post('im.mark', params={'channel': channel, 'ts': ts})
+
+    def open(self, user):
+        return self.post('im.open', params={'user': user})
+
+    def close(self, channel):
+        return self.post('im.close', params={'channel': channel})
 
 
 class Search(BaseAPI):
