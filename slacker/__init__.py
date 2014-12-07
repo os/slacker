@@ -154,12 +154,6 @@ class Channels(BaseAPI):
         return self.get('channels.list',
                         params={'exclude_archived': exclude_archived})
 
-    def get_channel_id(self, channel_name):
-        for channel in self.list().body['channels']:
-            name, channel_id = channel['name'], channel['id']
-            if name == channel_name:
-                return channel_id
-
     def history(self, channel, latest=None, oldest=None, count=None):
         return self.get('channels.history',
                         params={
@@ -204,6 +198,12 @@ class Channels(BaseAPI):
     def set_topic(self, channel, topic):
         return self.post('channels.setTopic',
                          params={'channel': channel, 'topic': topic})
+
+    def get_channel_id(self, channel_name):
+        for channel in self.list().body['channels']:
+            name, channel_id = channel['name'], channel['id']
+            if name == channel_name:
+                return channel_id
 
 
 class Chat(BaseAPI):
