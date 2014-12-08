@@ -22,7 +22,7 @@ API_BASE_URL = 'https://slack.com/api/{api}'
 
 __all__ = ['Error', 'Response', 'BaseAPI', 'API', 'Auth', 'Users', 'Groups',
            'Channels', 'Chat', 'IM', 'Search', 'Files', 'Stars', 'Emoji',
-           'Presence', 'OAuth', 'Slacker']
+           'Presence', 'RTM', 'OAuth', 'Slacker']
 
 
 class Error(Exception):
@@ -347,6 +347,11 @@ class Presence(BaseAPI):
         return self.post('presence.set', params={'presence': presence})
 
 
+class RTM(BaseAPI):
+    def start(self):
+        return self.get('rtm.start')
+
+
 class OAuth(BaseAPI):
     def access(self, client_id, client_secret, code, redirect_uri=None):
         return self.post('oauth.access',
@@ -364,6 +369,7 @@ class Slacker(object):
     def __init__(self, token):
         self.im = IM(token=token)
         self.api = API(token=token)
+        self.rtm = RTM(token=token)
         self.auth = Auth(token=token)
         self.chat = Chat(token=token)
         self.users = Users(token=token)
