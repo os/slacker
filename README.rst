@@ -6,7 +6,8 @@ Slacker
 
 About
 =====
-Slacker is a full-featured Python interface for the `Slack API 
+
+Slacker is a full-featured Python interface for the `Slack API
 <https://api.slack.com/>`_.
 
 Examples
@@ -16,7 +17,7 @@ Examples
     from slacker import Slacker
 
     slack = Slacker('<your-slack-api-token-goes-here>')
-    
+
     # Send a message to #general channel
     slack.chat.post_message('#general', 'Hello fellow slackers!')
 
@@ -29,10 +30,12 @@ Examples
 
 Installation
 ============
+
 .. code-block:: bash
 
     $ pip install slacker
 
 Documentation
 =============
+
 https://api.slack.com/
