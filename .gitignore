@@ -6,3 +6,4 @@
 *.pyo
 dist
 slacker.egg-info
+.tox
