@@ -86,6 +86,13 @@ class Users(BaseAPI):
     def set_active(self):
         return self.post('users.setActive')
 
+    def get_presence(self, user):
+        return self.get('users.getPresence', params={'user': user})
+
+    def set_presence(self, presence):
+        assert presence in Presence.TYPES, 'Invalid presence type'
+        return self.post('users.setPresence', params={'presence': presence})
+
 
 class Groups(BaseAPI):
     def create(self, name):
@@ -147,6 +154,9 @@ class Groups(BaseAPI):
 
 
 class Channels(BaseAPI):
+    def create(self, name):
+        return self.post('channels.create', params={'name': name})
+
     def info(self, channel):
         return self.get('channels.info', params={'channel': channel})
 
