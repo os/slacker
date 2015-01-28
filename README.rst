@@ -2,6 +2,9 @@
 Slacker
 =======
 
+|pypi|_
+|build status|_
+
 .. image:: https://raw.githubusercontent.com/os/slacker/master/static/slacker.jpg
 
 About
@@ -39,3 +42,10 @@ Documentation
 =============
 
 https://api.slack.com/
+
+
+.. |build status| image:: https://secure.travis-ci.org/os/slacker.png
+.. _build status: http://travis-ci.org/os/slacker
+.. |pypi| image:: https://pypip.in/version/slacker/badge.svg?style=flat
+.. _pypi: https://pypi.python.org/pypi/slacker/
+
