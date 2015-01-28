@@ -12,10 +12,10 @@ class TestUtils(unittest.TestCase):
     @patch('slacker.requests')
     def test_get_channel_id(self, mock_requests):
         text = {
-            "ok": "true",
-            "channels": [
-                {"name": "general", "id": "C111"},
-                {"name": "random", "id": "C222"}
+            'ok': 'true',
+            'channels': [
+                {'name': 'general', 'id': 'C111'},
+                {'name': 'random', 'id': 'C222'}
             ]
         }
         json_to_text = json.dumps(text)
@@ -33,10 +33,10 @@ class TestUtils(unittest.TestCase):
     @patch('slacker.requests')
     def test_get_channel_id_without_channel(self, mock_requests):
         text = {
-            "ok": "true",
-            "channels": [
-                {"name": "general", "id": "C111"},
-                {"name": "random", "id": "C222"}
+            'ok': 'true',
+            'channels': [
+                {'name': 'general', 'id': 'C111'},
+                {'name': 'random', 'id': 'C222'}
             ]
         }
         json_to_text = json.dumps(text)
