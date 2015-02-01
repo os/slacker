@@ -335,6 +335,9 @@ class Files(BaseAPI):
                              },
                              files={'file': f})
 
+    def delete(self, file):
+        return self.post('files.delete', params={'file': file})
+
 
 class Stars(BaseAPI):
     def list(self, user=None, count=None, page=None):
