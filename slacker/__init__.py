@@ -16,6 +16,8 @@ import json
 
 import requests
 
+from slacker.utils import get_item_id_by_name
+
 
 API_BASE_URL = 'https://slack.com/api/{api}'
 
@@ -92,6 +94,10 @@ class Users(BaseAPI):
     def set_presence(self, presence):
         assert presence in Presence.TYPES, 'Invalid presence type'
         return self.post('users.setPresence', params={'presence': presence})
+
+    def get_user_id(self, user_name):
+        members = self.list().body['members']
+        return get_item_id_by_name(members, user_name)
 
 
 class Groups(BaseAPI):
@@ -210,10 +216,8 @@ class Channels(BaseAPI):
                          params={'channel': channel, 'topic': topic})
 
     def get_channel_id(self, channel_name):
-        for channel in self.list().body['channels']:
-            name, channel_id = channel['name'], channel['id']
-            if name == channel_name:
-                return channel_id
+        channels = self.list().body['channels']
+        return get_item_id_by_name(channels, channel_name)
 
 
 class Chat(BaseAPI):
