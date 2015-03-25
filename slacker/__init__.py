@@ -370,6 +370,9 @@ class RTM(BaseAPI):
 
 
 class Team(BaseAPI):
+    def info(self):
+        return self.get('team.info')
+
     def access_logs(self, count=None, page=None):
         return self.get('team.accessLogs',
                         params={'count': count, 'page': page})
