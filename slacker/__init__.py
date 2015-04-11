@@ -326,7 +326,7 @@ class Files(BaseAPI):
 
     def upload(self, file_, filetype=None, filename=None, title=None,
                initial_comment=None, channels=None):
-        with open(file_, 'rb') as f:
+        with open(unicode(file_, 'utf-8'), 'rb') as f:
             if isinstance(channels, (tuple, list)):
                 channels = ','.join(channels)
 
