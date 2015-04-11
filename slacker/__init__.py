@@ -319,13 +319,13 @@ class Files(BaseAPI):
                             'page': page
                         })
 
-    def info(self, file, count=None, page=None):
+    def info(self, file_, count=None, page=None):
         return self.get('files.info',
-                        params={'file': file, 'count': count, 'page': page})
+                        params={'file': file_, 'count': count, 'page': page})
 
-    def upload(self, file, filetype=None, filename=None, title=None,
+    def upload(self, file_, filetype=None, filename=None, title=None,
                initial_comment=None, channels=None):
-        with open(file, 'rb') as f:
+        with open(file_, 'rb') as f:
             if isinstance(channels, (tuple, list)):
                 channels = ','.join(channels)
 
@@ -339,8 +339,8 @@ class Files(BaseAPI):
                              },
                              files={'file': f})
 
-    def delete(self, file):
-        return self.post('files.delete', params={'file': file})
+    def delete(self, file_):
+        return self.post('files.delete', params={'file': file_})
 
 
 class Stars(BaseAPI):
