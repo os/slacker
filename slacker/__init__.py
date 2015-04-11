@@ -335,7 +335,7 @@ class Files(BaseAPI):
                                  'filetype': filetype,
                                  'filename': filename,
                                  'title': title,
-                                 'initial_comment': cgi.escape(initial_comment),
+                                 'initial_comment': initial_comment and cgi.escape(initial_comment),
                                  'channels': channels
                              },
                              files={'file': f})
