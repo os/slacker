@@ -222,7 +222,7 @@ class Channels(BaseAPI):
 
 
 class Chat(BaseAPI):
-    def post_message(self, channel, text, username=None, parse=None,
+    def post_message(self, channel, text, username=None, as_user=None, parse=None,
                      link_names=None, attachments=None, unfurl_links=None,
                      icon_url=None, icon_emoji=None):
         return self.post('chat.postMessage',
@@ -230,6 +230,7 @@ class Chat(BaseAPI):
                              'channel': channel,
                              'text': cgi.escape(text),
                              'username': username,
+                             'as_user': as_user,
                              'parse': parse,
                              'link_names': link_names,
                              'attachments': attachments,
