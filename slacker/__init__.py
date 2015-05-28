@@ -225,6 +225,12 @@ class Chat(BaseAPI):
     def post_message(self, channel, text, username=None, as_user=None, parse=None,
                      link_names=None, attachments=None, unfurl_links=None,
                      icon_url=None, icon_emoji=None):
+       
+        # ensure attachments are json encoded
+        if attachments:
+            if not isinstance(attachments, basestring):
+                attachments = json.dumps(attachments)
+
         return self.post('chat.postMessage',
                          params={
                              'channel': channel,
