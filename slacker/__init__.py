@@ -23,7 +23,7 @@ API_BASE_URL = 'https://slack.com/api/{api}'
 
 
 __all__ = ['Error', 'Response', 'BaseAPI', 'API', 'Auth', 'Users', 'Groups',
-           'Channels', 'Chat', 'IM', 'Search', 'Files', 'Stars', 'Emoji',
+           'Channels', 'Chat', 'IM', 'IncomingWebhook', 'Search', 'Files', 'Stars', 'Emoji',
            'Presence', 'RTM', 'Team', 'OAuth', 'Slacker']
 
 
@@ -392,11 +392,25 @@ class OAuth(BaseAPI):
                              'redirect_uri': redirect_uri
                          })
 
+class IncomingWebhook(object):
+    def __init__(self, url=None):
+        self.url = url
+
+    def post(self, data):
+        """
+        Posts message with payload formatted in accordance with
+        this documentation https://api.slack.com/incoming-webhooks
+        """
+        if self.url != None:
+            return requests.post(self.url, data=json.dumps(data))
+        else:
+            raise Error('URL for incoming webhook is undefined')
+
 
 class Slacker(object):
     oauth = OAuth()
 
-    def __init__(self, token):
+    def __init__(self, token, incoming_webhook_url=None):
         self.im = IM(token=token)
         self.api = API(token=token)
         self.rtm = RTM(token=token)
@@ -411,3 +425,4 @@ class Slacker(object):
         self.groups = Groups(token=token)
         self.channels = Channels(token=token)
         self.presence = Presence(token=token)
+        self.incomingwebhook = IncomingWebhook(url=incoming_webhook_url)
