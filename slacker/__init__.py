@@ -392,6 +392,7 @@ class OAuth(BaseAPI):
                              'redirect_uri': redirect_uri
                          })
 
+
 class IncomingWebhook(object):
     def __init__(self, url=None):
         self.url = url
