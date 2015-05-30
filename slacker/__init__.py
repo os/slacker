@@ -228,7 +228,7 @@ class Chat(BaseAPI):
        
         # ensure attachments are json encoded
         if attachments:
-            if not isinstance(attachments, basestring):
+            if isinstance(attachments, list):
                 attachments = json.dumps(attachments)
 
         return self.post('chat.postMessage',
