@@ -107,6 +107,9 @@ class Groups(BaseAPI):
     def create_child(self, channel):
         return self.post('groups.createChild', params={'channel': channel})
 
+    def info(self, channel):
+        return self.get('groups.info', params={'channel': channel})
+
     def list(self, exclude_archived=None):
         return self.get('groups.list',
                         params={'exclude_archived': exclude_archived})
