@@ -4,6 +4,8 @@ Slacker
 
 |pypi|_
 |build status|_
+|code quality|_
+|pypi downloads|_
 
 .. image:: https://raw.githubusercontent.com/os/slacker/master/static/slacker.jpg
 
@@ -48,4 +50,8 @@ https://api.slack.com/
 .. _build status: http://travis-ci.org/os/slacker
 .. |pypi| image:: https://pypip.in/version/slacker/badge.svg?style=flat
 .. _pypi: https://pypi.python.org/pypi/slacker/
+.. |code quality| image:: https://scrutinizer-ci.com/g/os/slacker/badges/quality-score.png?b=master
+.. _code quality: https://scrutinizer-ci.com/g/os/slacker/
+.. |pypi downloads| image:: https://img.shields.io/pypi/dm/Slacker.svg
+.. _pypi downloads: https://pypi.python.org/pypi/slacker/
 
