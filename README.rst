@@ -48,7 +48,7 @@ https://api.slack.com/
 
 .. |build status| image:: https://img.shields.io/travis/os/slacker.svg
 .. _build status: http://travis-ci.org/os/slacker
-.. |pypi| image:: https://img.shields.io/pypi/v/nine.svg
+.. |pypi| image:: https://img.shields.io/pypi/v/Slacker.svg
 .. _pypi: https://pypi.python.org/pypi/slacker/
 .. |code quality| image:: https://scrutinizer-ci.com/g/os/slacker/badges/quality-score.png?b=master
 .. _code quality: https://scrutinizer-ci.com/g/os/slacker/
