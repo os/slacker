@@ -228,7 +228,7 @@ class Chat(BaseAPI):
                      link_names=None, attachments=None, unfurl_links=None,
                      icon_url=None, icon_emoji=None):
        
-        # ensure attachments are json encoded
+        # Ensure attachments are json encoded
         if attachments:
             if isinstance(attachments, list):
                 attachments = json.dumps(attachments)
