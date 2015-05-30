@@ -401,10 +401,10 @@ class IncomingWebhook(object):
         Posts message with payload formatted in accordance with
         this documentation https://api.slack.com/incoming-webhooks
         """
-        if self.url != None:
-            return requests.post(self.url, data=json.dumps(data))
-        else:
+        if not self.url:
             raise Error('URL for incoming webhook is undefined')
+
+        return requests.post(self.url, data=json.dumps(data))
 
 
 class Slacker(object):
