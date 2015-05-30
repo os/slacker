@@ -46,7 +46,7 @@ Documentation
 https://api.slack.com/
 
 
-.. |build status| image:: https://secure.travis-ci.org/os/slacker.png
+.. |build status| image:: https://img.shields.io/travis/os/slacker.svg
 .. _build status: http://travis-ci.org/os/slacker
 .. |pypi| image:: https://img.shields.io/pypi/v/nine.svg
 .. _pypi: https://pypi.python.org/pypi/slacker/
