@@ -12,7 +12,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import cgi
 import json
 
 import requests
@@ -228,7 +227,7 @@ class Chat(BaseAPI):
         return self.post('chat.postMessage',
                          params={
                              'channel': channel,
-                             'text': cgi.escape(text),
+                             'text': text,
                              'username': username,
                              'as_user': as_user,
                              'parse': parse,
@@ -241,7 +240,7 @@ class Chat(BaseAPI):
 
     def update(self, channel, ts, text):
         self.post('chat.update',
-                  params={'channel': channel, 'ts': ts, 'text': cgi.escape(text)})
+                  params={'channel': channel, 'ts': ts, 'text': text})
 
     def delete(self, channel, ts):
         self.post('chat.delete', params={'channel': channel, 'ts': ts})
@@ -336,7 +335,7 @@ class Files(BaseAPI):
                                  'filetype': filetype,
                                  'filename': filename,
                                  'title': title,
-                                 'initial_comment': initial_comment and cgi.escape(initial_comment),
+                                 'initial_comment': initial_comment,
                                  'channels': channels
                              },
                              files={'file': f})
