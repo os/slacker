@@ -55,3 +55,8 @@ https://api.slack.com/
 .. |pypi downloads| image:: https://img.shields.io/pypi/dm/Slacker.svg
 .. _pypi downloads: https://pypi.python.org/pypi/slacker/
 
+
+
+.. image:: https://badges.gitter.im/Join%20Chat.svg
+   :alt: Join the chat at https://gitter.im/os/slacker
+   :target: https://gitter.im/os/slacker?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge
