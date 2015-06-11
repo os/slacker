@@ -43,7 +43,7 @@ Installation
 Documentation
 =============
 
-https://api.slack.com/
+https://api.slack.com/methods
 
 
 .. |build status| image:: https://img.shields.io/travis/os/slacker.svg
