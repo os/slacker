@@ -226,7 +226,7 @@ class Channels(BaseAPI):
 class Chat(BaseAPI):
     def post_message(self, channel, text, username=None, as_user=None, parse=None,
                      link_names=None, attachments=None, unfurl_links=None,
-                     icon_url=None, icon_emoji=None):
+                     unfurl_media=None, icon_url=None, icon_emoji=None):
        
         # Ensure attachments are json encoded
         if attachments:
@@ -243,6 +243,7 @@ class Chat(BaseAPI):
                              'link_names': link_names,
                              'attachments': attachments,
                              'unfurl_links': unfurl_links,
+                             'unfurl_media': unfurl_media,
                              'icon_url': icon_url,
                              'icon_emoji': icon_emoji
                          })
