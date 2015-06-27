@@ -264,13 +264,15 @@ class IM(BaseAPI):
     def list(self):
         return self.get('im.list')
 
-    def history(self, channel, latest=None, oldest=None, count=None):
+    def history(self, channel, latest=None, oldest=None, count=None,
+                inclusive=None):
         return self.get('im.history',
                         params={
                             'channel': channel,
                             'latest': latest,
                             'oldest': oldest,
-                            'count': count
+                            'count': count,
+                            'inclusive': inclusive
                         })
 
     def mark(self, channel, ts):
