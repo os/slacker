@@ -340,14 +340,15 @@ class Files(BaseAPI):
         return self.get('files.info',
                         params={'file': file_, 'count': count, 'page': page})
 
-    def upload(self, file_, filetype=None, filename=None, title=None,
-               initial_comment=None, channels=None):
+    def upload(self, file_, content=None, filetype=None, filename=None,
+               title=None, initial_comment=None, channels=None):
         with open(file_, 'rb') as f:
             if isinstance(channels, (tuple, list)):
                 channels = ','.join(channels)
 
             return self.post('files.upload',
                              params={
+                                 'content': content,
                                  'filetype': filetype,
                                  'filename': filename,
                                  'title': title,
