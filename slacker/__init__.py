@@ -20,6 +20,7 @@ from slacker.utils import get_item_id_by_name
 
 
 API_BASE_URL = 'https://slack.com/api/{api}'
+DEFAULT_TIMEOUT = 10
 
 
 __all__ = ['Error', 'Response', 'BaseAPI', 'API', 'Auth', 'Users', 'Groups',
@@ -41,14 +42,16 @@ class Response(object):
 
 
 class BaseAPI(object):
-    def __init__(self, token=None):
+    def __init__(self, token=None, timeout=DEFAULT_TIMEOUT):
         self.token = token
+        self.timeout = timeout
 
     def _request(self, method, api, **kwargs):
         if self.token:
             kwargs.setdefault('params', {})['token'] = self.token
 
         response = method(API_BASE_URL.format(api=api),
+                          timeout=self.timeout,
                           **kwargs)
 
         response.raise_for_status()
@@ -461,8 +464,9 @@ class OAuth(BaseAPI):
 
 
 class IncomingWebhook(object):
-    def __init__(self, url=None):
+    def __init__(self, url=None, timeout=DEFAULT_TIMEOUT):
         self.url = url
+        self.timeout = timeout
 
     def post(self, data):
         """
@@ -472,26 +476,27 @@ class IncomingWebhook(object):
         if not self.url:
             raise Error('URL for incoming webhook is undefined')
 
-        return requests.post(self.url, data=json.dumps(data))
+        return requests.post(self.url, data=json.dumps(data),
+                             timeout=self.timeout)
 
 
 class Slacker(object):
-    oauth = OAuth()
+    oauth = OAuth(timeout=DEFAULT_TIMEOUT)
 
-    def __init__(self, token, incoming_webhook_url=None):
-        self.im = IM(token=token)
-        self.api = API(token=token)
-        self.rtm = RTM(token=token)
-        self.auth = Auth(token=token)
-        self.chat = Chat(token=token)
-        self.team = Team(token=token)
-        self.users = Users(token=token)
-        self.files = Files(token=token)
-        self.stars = Stars(token=token)
-        self.emoji = Emoji(token=token)
-        self.search = Search(token=token)
-        self.groups = Groups(token=token)
-        self.channels = Channels(token=token)
-        self.presence = Presence(token=token)
-        self.reactions = Reactions(token=token)
-        self.incomingwebhook = IncomingWebhook(url=incoming_webhook_url)
+    def __init__(self, token, incoming_webhook_url=None, timeout=DEFAULT_TIMEOUT):
+        self.im = IM(token=token, timeout=timeout)
+        self.api = API(token=token, timeout=timeout)
+        self.rtm = RTM(token=token, timeout=timeout)
+        self.auth = Auth(token=token, timeout=timeout)
+        self.chat = Chat(token=token, timeout=timeout)
+        self.team = Team(token=token, timeout=timeout)
+        self.users = Users(token=token, timeout=timeout)
+        self.files = Files(token=token, timeout=timeout)
+        self.stars = Stars(token=token, timeout=timeout)
+        self.emoji = Emoji(token=token, timeout=timeout)
+        self.search = Search(token=token, timeout=timeout)
+        self.groups = Groups(token=token, timeout=timeout)
+        self.channels = Channels(token=token, timeout=timeout)
+        self.presence = Presence(token=token, timeout=timeout)
+        self.reactions = Reactions(token=token, timeout=timeout)
+        self.incomingwebhook = IncomingWebhook(url=incoming_webhook_url, timeout=timeout)
