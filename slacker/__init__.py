@@ -24,7 +24,8 @@ API_BASE_URL = 'https://slack.com/api/{api}'
 
 __all__ = ['Error', 'Response', 'BaseAPI', 'API', 'Auth', 'Users', 'Groups',
            'Channels', 'Chat', 'IM', 'IncomingWebhook', 'Search', 'Files',
-           'Stars', 'Emoji', 'Presence', 'RTM', 'Team', 'OAuth', 'Slacker']
+           'Stars', 'Emoji', 'Presence', 'RTM', 'Team', 'Reactions', 'OAuth',
+           'Slacker']
 
 
 class Error(Exception):
@@ -396,6 +397,58 @@ class Team(BaseAPI):
                         params={'count': count, 'page': page})
 
 
+class Reactions(BaseAPI):
+    def add(self, name, file_=None, file_comment=None, channel=None,
+            timestamp=None):
+        # One of file, file_comment, or the combination of channel and timestamp
+        # must be specified
+        assert (file_ or file_comment) or (channel and timestamp)
+
+        return self.post('reactions.add',
+                         params={
+                             'name': name,
+                             'file': file_,
+                             'file_comment': file_comment,
+                             'channel': channel,
+                             'timestamp': timestamp,
+                         })
+
+    def get(self, file_=None, file_comment=None, channel=None, timestamp=None,
+            full=None):
+        return super(Reactions, self).get('reactions.get',
+                                          params={
+                                              'file': file_,
+                                              'file_comment': file_comment,
+                                              'channel': channel,
+                                              'timestamp': timestamp,
+                                              'full': full,
+                                          })
+
+    def list(self, user=None, full=None, count=None, page=None):
+        return super(Reactions, self).get('reactions.list',
+                                          params={
+                                              'user': user,
+                                              'full': full,
+                                              'count': count,
+                                              'page': page,
+                                          })
+
+    def remove(self, name, file_=None, file_comment=None, channel=None,
+               timestamp=None):
+        # One of file, file_comment, or the combination of channel and timestamp
+        # must be specified
+        assert (file_ or file_comment) or (channel and timestamp)
+
+        return self.post('reactions.remove',
+                         params={
+                             'name': name,
+                             'file': file_,
+                             'file_comment': file_comment,
+                             'channel': channel,
+                             'timestamp': timestamp,
+                         })
+
+
 class OAuth(BaseAPI):
     def access(self, client_id, client_secret, code, redirect_uri=None):
         return self.post('oauth.access',
@@ -440,4 +493,5 @@ class Slacker(object):
         self.groups = Groups(token=token)
         self.channels = Channels(token=token)
         self.presence = Presence(token=token)
+        self.reactions = Reactions(token=token)
         self.incomingwebhook = IncomingWebhook(url=incoming_webhook_url)
