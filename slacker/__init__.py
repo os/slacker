@@ -50,7 +50,7 @@ class BaseAPI(object):
         response = method(API_BASE_URL.format(api=api),
                           **kwargs)
 
-        assert response.status_code == 200
+        response.raise_for_status()
 
         response = Response(response.text)
         if not response.successful:
