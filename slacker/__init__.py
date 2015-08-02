@@ -232,9 +232,10 @@ class Channels(BaseAPI):
 
 
 class Chat(BaseAPI):
-    def post_message(self, channel, text, username=None, as_user=None, parse=None,
-                     link_names=None, attachments=None, unfurl_links=None,
-                     unfurl_media=None, icon_url=None, icon_emoji=None):
+    def post_message(self, channel, text, username=None, as_user=None,
+                     parse=None, link_names=None, attachments=None,
+                     unfurl_links=None, unfurl_media=None, icon_url=None,
+                     icon_emoji=None):
        
         # Ensure attachments are json encoded
         if attachments:
@@ -483,7 +484,8 @@ class IncomingWebhook(object):
 class Slacker(object):
     oauth = OAuth(timeout=DEFAULT_TIMEOUT)
 
-    def __init__(self, token, incoming_webhook_url=None, timeout=DEFAULT_TIMEOUT):
+    def __init__(self, token, incoming_webhook_url=None,
+                 timeout=DEFAULT_TIMEOUT):
         self.im = IM(token=token, timeout=timeout)
         self.api = API(token=token, timeout=timeout)
         self.rtm = RTM(token=token, timeout=timeout)
@@ -499,4 +501,5 @@ class Slacker(object):
         self.channels = Channels(token=token, timeout=timeout)
         self.presence = Presence(token=token, timeout=timeout)
         self.reactions = Reactions(token=token, timeout=timeout)
-        self.incomingwebhook = IncomingWebhook(url=incoming_webhook_url, timeout=timeout)
+        self.incomingwebhook = IncomingWebhook(url=incoming_webhook_url,
+                                               timeout=timeout)
