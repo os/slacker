@@ -97,7 +97,7 @@ class Users(BaseAPI):
 
     def set_presence(self, presence):
         assert presence in Presence.TYPES, 'Invalid presence type'
-        return self.post('users.setPresence', params={'presence': presence})
+        return self.post('users.setPresence', data={'presence': presence})
 
     def get_user_id(self, user_name):
         members = self.list().body['members']
@@ -106,10 +106,10 @@ class Users(BaseAPI):
 
 class Groups(BaseAPI):
     def create(self, name):
-        return self.post('groups.create', params={'name': name})
+        return self.post('groups.create', data={'name': name})
 
     def create_child(self, channel):
-        return self.post('groups.createChild', params={'channel': channel})
+        return self.post('groups.createChild', data={'channel': channel})
 
     def info(self, channel):
         return self.get('groups.info', params={'channel': channel})
@@ -131,46 +131,46 @@ class Groups(BaseAPI):
 
     def invite(self, channel, user):
         return self.post('groups.invite',
-                         params={'channel': channel, 'user': user})
+                         data={'channel': channel, 'user': user})
 
     def kick(self, channel, user):
         return self.post('groups.kick',
-                         params={'channel': channel, 'user': user})
+                         data={'channel': channel, 'user': user})
 
     def leave(self, channel):
-        return self.post('groups.leave', params={'channel': channel})
+        return self.post('groups.leave', data={'channel': channel})
 
     def mark(self, channel, ts):
-        return self.post('groups.mark', params={'channel': channel, 'ts': ts})
+        return self.post('groups.mark', data={'channel': channel, 'ts': ts})
 
     def rename(self, channel, name):
         return self.post('groups.rename',
-                         params={'channel': channel, 'name': name})
+                         data={'channel': channel, 'name': name})
 
     def archive(self, channel):
-        return self.post('groups.archive', params={'channel': channel})
+        return self.post('groups.archive', data={'channel': channel})
 
     def unarchive(self, channel):
-        return self.post('groups.unarchive', params={'channel': channel})
+        return self.post('groups.unarchive', data={'channel': channel})
 
     def open(self, channel):
-        return self.post('groups.open', params={'channel': channel})
+        return self.post('groups.open', data={'channel': channel})
 
     def close(self, channel):
-        return self.post('groups.close', params={'channel': channel})
+        return self.post('groups.close', data={'channel': channel})
 
     def set_purpose(self, channel, purpose):
         return self.post('groups.setPurpose',
-                         params={'channel': channel, 'purpose': purpose})
+                         data={'channel': channel, 'purpose': purpose})
 
     def set_topic(self, channel, topic):
         return self.post('groups.setTopic',
-                         params={'channel': channel, 'topic': topic})
+                         data={'channel': channel, 'topic': topic})
 
 
 class Channels(BaseAPI):
     def create(self, name):
-        return self.post('channels.create', params={'name': name})
+        return self.post('channels.create', data={'name': name})
 
     def info(self, channel):
         return self.get('channels.info', params={'channel': channel})
@@ -192,39 +192,39 @@ class Channels(BaseAPI):
 
     def mark(self, channel, ts):
         return self.post('channels.mark',
-                         params={'channel': channel, 'ts': ts})
+                         data={'channel': channel, 'ts': ts})
 
     def join(self, name):
-        return self.post('channels.join', params={'name': name})
+        return self.post('channels.join', data={'name': name})
 
     def leave(self, channel):
-        return self.post('channels.leave', params={'channel': channel})
+        return self.post('channels.leave', data={'channel': channel})
 
     def invite(self, channel, user):
         return self.post('channels.invite',
-                         params={'channel': channel, 'user': user})
+                         data={'channel': channel, 'user': user})
 
     def kick(self, channel, user):
         return self.post('channels.kick',
-                         params={'channel': channel, 'user': user})
+                         data={'channel': channel, 'user': user})
 
     def rename(self, channel, name):
         return self.post('channels.rename',
-                         params={'channel': channel, 'name': name})
+                         data={'channel': channel, 'name': name})
 
     def archive(self, channel):
-        return self.post('channels.archive', params={'channel': channel})
+        return self.post('channels.archive', data={'channel': channel})
 
     def unarchive(self, channel):
-        return self.post('channels.unarchive', params={'channel': channel})
+        return self.post('channels.unarchive', data={'channel': channel})
 
     def set_purpose(self, channel, purpose):
         return self.post('channels.setPurpose',
-                         params={'channel': channel, 'purpose': purpose})
+                         data={'channel': channel, 'purpose': purpose})
 
     def set_topic(self, channel, topic):
         return self.post('channels.setTopic',
-                         params={'channel': channel, 'topic': topic})
+                         data={'channel': channel, 'topic': topic})
 
     def get_channel_id(self, channel_name):
         channels = self.list().body['channels']
@@ -242,7 +242,7 @@ class Chat(BaseAPI):
                 attachments = json.dumps(attachments)
 
         return self.post('chat.postMessage',
-                         params={
+                         data={
                              'channel': channel,
                              'text': text,
                              'username': username,
@@ -258,10 +258,10 @@ class Chat(BaseAPI):
 
     def update(self, channel, ts, text):
         self.post('chat.update',
-                  params={'channel': channel, 'ts': ts, 'text': text})
+                  data={'channel': channel, 'ts': ts, 'text': text})
 
     def delete(self, channel, ts):
-        self.post('chat.delete', params={'channel': channel, 'ts': ts})
+        self.post('chat.delete', data={'channel': channel, 'ts': ts})
 
 
 class IM(BaseAPI):
@@ -280,13 +280,13 @@ class IM(BaseAPI):
                         })
 
     def mark(self, channel, ts):
-        return self.post('im.mark', params={'channel': channel, 'ts': ts})
+        return self.post('im.mark', data={'channel': channel, 'ts': ts})
 
     def open(self, user):
-        return self.post('im.open', params={'user': user})
+        return self.post('im.open', data={'user': user})
 
     def close(self, channel):
-        return self.post('im.close', params={'channel': channel})
+        return self.post('im.close', data={'channel': channel})
 
 
 class Search(BaseAPI):
@@ -351,7 +351,7 @@ class Files(BaseAPI):
                 channels = ','.join(channels)
 
             return self.post('files.upload',
-                             params={
+                             data={
                                  'content': content,
                                  'filetype': filetype,
                                  'filename': filename,
@@ -362,7 +362,7 @@ class Files(BaseAPI):
                              files={'file': f})
 
     def delete(self, file_):
-        return self.post('files.delete', params={'file': file_})
+        return self.post('files.delete', data={'file': file_})
 
 
 class Stars(BaseAPI):
@@ -383,7 +383,7 @@ class Presence(BaseAPI):
 
     def set(self, presence):
         assert presence in Presence.TYPES, 'Invalid presence type'
-        return self.post('presence.set', params={'presence': presence})
+        return self.post('presence.set', data={'presence': presence})
 
 
 class RTM(BaseAPI):
@@ -408,7 +408,7 @@ class Reactions(BaseAPI):
         assert (file_ or file_comment) or (channel and timestamp)
 
         return self.post('reactions.add',
-                         params={
+                         data={
                              'name': name,
                              'file': file_,
                              'file_comment': file_comment,
@@ -443,7 +443,7 @@ class Reactions(BaseAPI):
         assert (file_ or file_comment) or (channel and timestamp)
 
         return self.post('reactions.remove',
-                         params={
+                         data={
                              'name': name,
                              'file': file_,
                              'file_comment': file_comment,
@@ -455,7 +455,7 @@ class Reactions(BaseAPI):
 class OAuth(BaseAPI):
     def access(self, client_id, client_secret, code, redirect_uri=None):
         return self.post('oauth.access',
-                         params={
+                         data={
                              'client_id': client_id,
                              'client_secret': client_secret,
                              'code': code,
