@@ -25,8 +25,8 @@ DEFAULT_TIMEOUT = 10
 
 __all__ = ['Error', 'Response', 'BaseAPI', 'API', 'Auth', 'Users', 'Groups',
            'Channels', 'Chat', 'IM', 'IncomingWebhook', 'Search', 'Files',
-           'Stars', 'Emoji', 'Presence', 'RTM', 'Team', 'Reactions', 'OAuth',
-           'Slacker']
+           'Stars', 'Emoji', 'Presence', 'RTM', 'Team', 'Reactions', 'Pins',
+           'OAuth', 'Slacker']
 
 
 class Error(Exception):
@@ -453,6 +453,35 @@ class Reactions(BaseAPI):
                          })
 
 
+class Pins(BaseAPI):
+    def add(self, channel, file_=None, file_comment=None, timestamp=None):
+        # One of file, file_comment, or timestamp must also be specified
+        assert file_ or file_comment or timestamp
+
+        return self.post('pins.add',
+                         data={
+                             'channel': channel,
+                             'file': file_,
+                             'file_comment': file_comment,
+                             'timestamp': timestamp,
+                         })
+
+    def remove(self, channel, file_=None, file_comment=None, timestamp=None):
+        # One of file, file_comment, or timestamp must also be specified
+        assert file_ or file_comment or timestamp
+
+        return self.post('pins.remove',
+                         data={
+                             'channel': channel,
+                             'file': file_,
+                             'file_comment': file_comment,
+                             'timestamp': timestamp,
+                         })
+
+    def list(self, channel):
+        return self.get('pins.list', params={'channel': channel})
+
+
 class OAuth(BaseAPI):
     def access(self, client_id, client_secret, code, redirect_uri=None):
         return self.post('oauth.access',
@@ -492,6 +521,7 @@ class Slacker(object):
         self.auth = Auth(token=token, timeout=timeout)
         self.chat = Chat(token=token, timeout=timeout)
         self.team = Team(token=token, timeout=timeout)
+        self.pins = Pins(token=token, timeout=timeout)
         self.users = Users(token=token, timeout=timeout)
         self.files = Files(token=token, timeout=timeout)
         self.stars = Stars(token=token, timeout=timeout)
