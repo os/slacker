@@ -86,8 +86,12 @@ class Users(BaseAPI):
     def info(self, user):
         return self.get('users.info', params={'user': user})
 
-    def list(self):
-        return self.get('users.list')
+    def list(self, presence=False):
+        if presence:
+            presence = 1
+        else:
+            presence = 0
+        return self.get('users.list', params={'presence': presence})
 
     def set_active(self):
         return self.post('users.setActive')
