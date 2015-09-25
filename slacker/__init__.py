@@ -236,7 +236,7 @@ class Chat(BaseAPI):
                      parse=None, link_names=None, attachments=None,
                      unfurl_links=None, unfurl_media=None, icon_url=None,
                      icon_emoji=None):
-       
+
         # Ensure attachments are json encoded
         if attachments:
             if isinstance(attachments, list):
@@ -388,8 +388,12 @@ class Presence(BaseAPI):
 
 
 class RTM(BaseAPI):
-    def start(self):
-        return self.get('rtm.start')
+    def start(self, simple_latest=False, no_unreads=False):
+        return self.get('rtm.start',
+                        params={
+                            'simple_latest': 1 if simple_latest else 0,
+                            'no_unreads': 1 if no_unreads else 0
+                        })
 
 
 class Team(BaseAPI):
