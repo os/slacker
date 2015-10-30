@@ -26,7 +26,7 @@ DEFAULT_TIMEOUT = 10
 __all__ = ['Error', 'Response', 'BaseAPI', 'API', 'Auth', 'Users', 'Groups',
            'Channels', 'Chat', 'IM', 'IncomingWebhook', 'Search', 'Files',
            'Stars', 'Emoji', 'Presence', 'RTM', 'Team', 'Reactions', 'Pins',
-           'OAuth', 'Slacker']
+           'MPIM', 'OAuth', 'Slacker']
 
 
 class Error(Exception):
@@ -290,6 +290,35 @@ class IM(BaseAPI):
         return self.post('im.close', data={'channel': channel})
 
 
+class MPIM(BaseAPI):
+    def open(self, users):
+        if isinstance(users, (tuple, list)):
+            users = ','.join(users)
+
+        return self.post('mpim.open', data={'user': users})
+
+    def close(self, channel):
+        return self.post('mpim.close', data={'channel': channel})
+
+    def mark(self, channel, ts):
+        return self.post('mpim.mark', data={'channel': channel, 'ts': ts})
+
+    def list(self):
+        return self.get('mpim.list')
+
+    def history(self, channel, latest=None, oldest=None, inclusive=False,
+                count=None, unreads=False):
+        return self.get('mpim.history',
+                        params={
+                            'channel': channel,
+                            'latest': latest,
+                            'oldest': oldest,
+                            'inclusive': int(inclusive),
+                            'count': count,
+                            'unreads': int(unreads)
+                        })
+
+
 class Search(BaseAPI):
     def all(self, query, sort=None, sort_dir=None, highlight=None, count=None,
             page=None):
@@ -522,6 +551,7 @@ class Slacker(object):
         self.chat = Chat(token=token, timeout=timeout)
         self.team = Team(token=token, timeout=timeout)
         self.pins = Pins(token=token, timeout=timeout)
+        self.mpim = MPIM(token=token, timeout=timeout)
         self.users = Users(token=token, timeout=timeout)
         self.files = Files(token=token, timeout=timeout)
         self.stars = Stars(token=token, timeout=timeout)
