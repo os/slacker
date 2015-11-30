@@ -180,14 +180,15 @@ class Channels(BaseAPI):
                         params={'exclude_archived': exclude_archived})
 
     def history(self, channel, latest=None, oldest=None, count=None,
-                inclusive=None):
+                inclusive=None, unreads=None):
         return self.get('channels.history',
                         params={
                             'channel': channel,
                             'latest': latest,
                             'oldest': oldest,
                             'count': count,
-                            'inclusive': inclusive
+                            'inclusive': inclusive,
+                            'unreads': unreads
                         })
 
     def mark(self, channel, ts):
@@ -236,7 +237,7 @@ class Chat(BaseAPI):
                      parse=None, link_names=None, attachments=None,
                      unfurl_links=None, unfurl_media=None, icon_url=None,
                      icon_emoji=None):
-       
+
         # Ensure attachments are json encoded
         if attachments:
             if isinstance(attachments, list):
