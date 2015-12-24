@@ -258,11 +258,11 @@ class Chat(BaseAPI):
                          })
 
     def update(self, channel, ts, text):
-        self.post('chat.update',
+        return self.post('chat.update',
                   data={'channel': channel, 'ts': ts, 'text': text})
 
     def delete(self, channel, ts):
-        self.post('chat.delete', data={'channel': channel, 'ts': ts})
+        return self.post('chat.delete', data={'channel': channel, 'ts': ts})
 
 
 class IM(BaseAPI):
