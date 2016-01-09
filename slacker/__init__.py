@@ -26,7 +26,7 @@ DEFAULT_TIMEOUT = 10
 __all__ = ['Error', 'Response', 'BaseAPI', 'API', 'Auth', 'Users', 'Groups',
            'Channels', 'Chat', 'IM', 'IncomingWebhook', 'Search', 'Files',
            'Stars', 'Emoji', 'Presence', 'RTM', 'Team', 'Reactions', 'Pins',
-           'UserGroups', 'UserGroupsUsers', 'MPIM', 'OAuth', 'Slacker']
+           'UserGroups', 'UserGroupsUsers', 'MPIM', 'OAuth', 'DND', 'Slacker']
 
 
 class Error(Exception):
@@ -612,6 +612,26 @@ class UserGroups(BaseAPI):
         })
 
 
+class DND(BaseAPI):
+    def team_info(self, users=None):
+        if isinstance(users, (tuple, list)):
+            users = ','.join(users)
+
+        return self.get('dnd.teamInfo', params={'users': users})
+
+    def set_snooze(self, num_minutes):
+        return self.post('dnd.setSnooze', data={'num_minutes': num_minutes})
+
+    def info(self, user=None):
+        return self.get('dnd.info', params={'user': user})
+
+    def end_dnd(self):
+        return self.post('dnd.endDnd')
+
+    def end_snooze(self):
+        return self.post('dnd.endSnooze')
+
+
 class OAuth(BaseAPI):
     def access(self, client_id, client_secret, code, redirect_uri=None):
         return self.post('oauth.access',
@@ -647,6 +667,7 @@ class Slacker(object):
                  timeout=DEFAULT_TIMEOUT):
         self.im = IM(token=token, timeout=timeout)
         self.api = API(token=token, timeout=timeout)
+        self.dnd = DND(token=token, timeout=timeout)
         self.rtm = RTM(token=token, timeout=timeout)
         self.auth = Auth(token=token, timeout=timeout)
         self.chat = Chat(token=token, timeout=timeout)
