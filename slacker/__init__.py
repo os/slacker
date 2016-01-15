@@ -70,6 +70,9 @@ class BaseAPI(object):
     def post(self, api, **kwargs):
         return self._request(requests.post, api, **kwargs)
 
+    def setProxies(self, proxies):
+        self.proxies = proxies
+
 
 class API(BaseAPI):
     def test(self, error=None, **kwargs):
@@ -670,6 +673,7 @@ class Slacker(object):
                  timeout=DEFAULT_TIMEOUT, httpProxy=None, httpsProxy=None):
 
         proxies = self.__createProxies(httpProxy, httpsProxy)
+        oauth.setProxies(proxies)
         self.im = IM(token=token, timeout=timeout, proxies=proxies)
         self.api = API(token=token, timeout=timeout, proxies=proxies)
         self.dnd = DND(token=token, timeout=timeout, proxies=proxies)
