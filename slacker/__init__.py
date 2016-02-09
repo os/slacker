@@ -180,15 +180,15 @@ class Channels(BaseAPI):
                         params={'exclude_archived': exclude_archived})
 
     def history(self, channel, latest=None, oldest=None, count=None,
-                inclusive=None, unreads=None):
+                inclusive=False, unreads=False):
         return self.get('channels.history',
                         params={
                             'channel': channel,
                             'latest': latest,
                             'oldest': oldest,
                             'count': count,
-                            'inclusive': inclusive,
-                            'unreads': unreads
+                            'inclusive': int(inclusive),
+                            'unreads': int(unreads)
                         })
 
     def mark(self, channel, ts):
