@@ -397,26 +397,26 @@ class Files(BaseAPI):
 
 class Stars(BaseAPI):
     def add(self, file_=None, file_comment=None, channel=None, timestamp=None):
-        return self.get('stars.add',
-                        params={
-                            'file': file_,
-                            'file_comment': file_comment,
-                            'channel': channel,
-                            'timestamp': timestamp
-                        })
+        return self.post('stars.add',
+                         data={
+                             'file': file_,
+                             'file_comment': file_comment,
+                             'channel': channel,
+                             'timestamp': timestamp
+                         })
     
     def list(self, user=None, count=None, page=None):
         return self.get('stars.list',
                         params={'user': user, 'count': count, 'page': page})
     
     def remove(self, file_=None, file_comment=None, channel=None, timestamp=None):
-        return self.get('stars.remove',
-                        params={
-                            'file': file_,
-                            'file_comment': file_comment,
-                            'channel': channel,
-                            'timestamp': timestamp
-                        })
+        return self.post('stars.remove',
+                         data={
+                             'file': file_,
+                             'file_comment': file_comment,
+                             'channel': channel,
+                             'timestamp': timestamp
+                         })
 
 
 class Emoji(BaseAPI):
