@@ -397,6 +397,8 @@ class Files(BaseAPI):
 
 class Stars(BaseAPI):
     def add(self, file_=None, file_comment=None, channel=None, timestamp=None):
+        assert file_ or file_comment or channel
+
         return self.post('stars.add',
                          data={
                              'file': file_,
@@ -410,6 +412,8 @@ class Stars(BaseAPI):
                         params={'user': user, 'count': count, 'page': page})
     
     def remove(self, file_=None, file_comment=None, channel=None, timestamp=None):
+        assert file_ or file_comment or channel
+
         return self.post('stars.remove',
                          data={
                              'file': file_,
