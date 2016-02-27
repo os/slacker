@@ -23,7 +23,7 @@ Examples
     slack = Slacker('<your-slack-api-token-goes-here>')
 
     # Send a message to #general channel
-    slack.chat.post_message('#general', 'Hello fellow slackers!', as_user=True)
+    slack.chat.post_message('#general', 'Hello fellow slackers!')
 
     # Get users list
     response = slack.users.list()
