@@ -468,11 +468,12 @@ class Presence(BaseAPI):
 
 
 class RTM(BaseAPI):
-    def start(self, simple_latest=False, no_unreads=False):
+    def start(self, simple_latest=False, no_unreads=False, mpim_aware=False):
         return self.get('rtm.start',
                         params={
                             'simple_latest': int(simple_latest),
                             'no_unreads': int(no_unreads),
+                            'mpim_aware': int(mpim_aware),
                         })
 
 
