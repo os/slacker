@@ -418,6 +418,9 @@ class Files(BaseAPI):
     def delete(self, file_):
         return self.post('files.delete', data={'file': file_})
 
+    def revoke_public_url(self, file_):
+        return self.post('files.revokePublicURL', data={'file': file_})
+
 
 class Stars(BaseAPI):
     def add(self, file_=None, file_comment=None, channel=None, timestamp=None):
