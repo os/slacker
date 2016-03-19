@@ -97,7 +97,6 @@ class Users(BaseAPI):
         return self.get('users.getPresence', params={'user': user})
 
     def set_presence(self, presence):
-        assert presence in Presence.TYPES, 'Invalid presence type'
         return self.post('users.setPresence', data={'presence': presence})
 
     def get_user_id(self, user_name):
