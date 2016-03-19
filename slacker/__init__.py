@@ -26,7 +26,8 @@ DEFAULT_TIMEOUT = 10
 __all__ = ['Error', 'Response', 'BaseAPI', 'API', 'Auth', 'Users', 'Groups',
            'Channels', 'Chat', 'IM', 'IncomingWebhook', 'Search', 'Files',
            'Stars', 'Emoji', 'Presence', 'RTM', 'Team', 'Reactions', 'Pins',
-           'UserGroups', 'UserGroupsUsers', 'MPIM', 'OAuth', 'DND', 'Slacker']
+           'UserGroups', 'UserGroupsUsers', 'MPIM', 'OAuth', 'DND',
+           'FilesComments', 'Slacker']
 
 
 class Error(Exception):
@@ -358,7 +359,29 @@ class Search(BaseAPI):
                         })
 
 
+class FilesComments(BaseAPI):
+    def add(self, file_, comment):
+        return self.post('files.comments.add',
+                         data={'file': file_, 'comment': comment})
+
+    def delete(self, file_, id):
+        return self.post('files.comments.delete',
+                         data={'file': file_, 'id': id})
+
+    def edit(self, file_, id, comment):
+        return self.post('files.comments.edit',
+                         data={'file': file, 'id': id, 'comment': comment})
+
+
 class Files(BaseAPI):
+    def __init__(self, *args, **kwargs):
+        super(Files, self).__init__(*args, **kwargs)
+        self._comments = FilesComments(*args, **kwargs)
+
+    @property
+    def comments(self):
+        return self._comments
+
     def list(self, user=None, ts_from=None, ts_to=None, types=None,
              count=None, page=None):
         return self.get('files.list',
