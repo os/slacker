@@ -471,8 +471,8 @@ class RTM(BaseAPI):
     def start(self, simple_latest=False, no_unreads=False):
         return self.get('rtm.start',
                         params={
-                            'simple_latest': 1 if simple_latest else 0,
-                            'no_unreads': 1 if no_unreads else 0
+                            'simple_latest': int(simple_latest),
+                            'no_unreads': int(no_unreads),
                         })
 
 
