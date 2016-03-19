@@ -469,8 +469,12 @@ class Presence(BaseAPI):
 
 
 class RTM(BaseAPI):
-    def start(self):
-        return self.get('rtm.start')
+    def start(self, simple_latest=False, no_unreads=False):
+        return self.get('rtm.start',
+                        params={
+                            'simple_latest': 1 if simple_latest else 0,
+                            'no_unreads': 1 if no_unreads else 0
+                        })
 
 
 class Team(BaseAPI):
