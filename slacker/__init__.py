@@ -481,6 +481,18 @@ class Team(BaseAPI):
         return self.get('team.accessLogs',
                         params={'count': count, 'page': page})
 
+    def integration_logs(self, service_id=None, app_id=None, user=None,
+                         change_type=None, count=None, page=None):
+        return self.get('team.integrationLogs',
+                        params={
+                            'service_id': service_id,
+                            'app_id': app_id,
+                            'user': user,
+                            'change_type': change_type,
+                            'count': count,
+                            'page': page,
+                        })
+
 
 class Reactions(BaseAPI):
     def add(self, name, file_=None, file_comment=None, channel=None,
