@@ -421,6 +421,9 @@ class Files(BaseAPI):
     def revoke_public_url(self, file_):
         return self.post('files.revokePublicURL', data={'file': file_})
 
+    def shared_public_url(self, file_):
+        return self.post('files.sharedPublicURL', data={'file': file_})
+
 
 class Stars(BaseAPI):
     def add(self, file_=None, file_comment=None, channel=None, timestamp=None):
