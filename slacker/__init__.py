@@ -258,9 +258,17 @@ class Chat(BaseAPI):
                              'icon_emoji': icon_emoji
                          })
 
-    def update(self, channel, ts, text):
+    def update(self, channel, ts, text, attachments=None):
+        # Ensure attachments are json encoded
+        if attachments and isinstance(attachments, list):
+            attachments = json.dumps(attachments)
         return self.post('chat.update',
-                         data={'channel': channel, 'ts': ts, 'text': text})
+                         data={
+                             'channel': channel, 
+                             'text': text,
+                             'attachments': attachments,
+                             'ts': ts, 
+                             })
 
     def delete(self, channel, ts):
         return self.post('chat.delete', data={'channel': channel, 'ts': ts})
