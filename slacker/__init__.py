@@ -265,9 +265,9 @@ class Chat(BaseAPI):
         return self.post('chat.update',
                          data={
                              'channel': channel,
+                             'ts': ts,
                              'text': text,
                              'attachments': attachments,
-                             'ts': ts,
                          })
 
     def delete(self, channel, ts):
