@@ -268,7 +268,7 @@ class Chat(BaseAPI):
                              'text': text,
                              'attachments': attachments,
                              'ts': ts,
-                             })
+                         })
 
     def delete(self, channel, ts):
         return self.post('chat.delete', data={'channel': channel, 'ts': ts})
