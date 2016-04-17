@@ -258,7 +258,8 @@ class Chat(BaseAPI):
                              'icon_emoji': icon_emoji
                          })
 
-    def update(self, channel, ts, text, attachments=None):
+    def update(self, channel, ts, text, attachments=None, parse=None,
+               link_names=False, as_user=None):
         # Ensure attachments are json encoded
         if attachments and isinstance(attachments, list):
             attachments = json.dumps(attachments)
@@ -268,6 +269,9 @@ class Chat(BaseAPI):
                              'ts': ts,
                              'text': text,
                              'attachments': attachments,
+                             'parse': None,
+                             'link_names': int(link_names),
+                             'as_user': as_user,
                          })
 
     def delete(self, channel, ts):
