@@ -264,10 +264,10 @@ class Chat(BaseAPI):
             attachments = json.dumps(attachments)
         return self.post('chat.update',
                          data={
-                             'channel': channel, 
+                             'channel': channel,
                              'text': text,
                              'attachments': attachments,
-                             'ts': ts, 
+                             'ts': ts,
                              })
 
     def delete(self, channel, ts):
