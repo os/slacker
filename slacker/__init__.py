@@ -27,7 +27,7 @@ __all__ = ['Error', 'Response', 'BaseAPI', 'API', 'Auth', 'Users', 'Groups',
            'Channels', 'Chat', 'IM', 'IncomingWebhook', 'Search', 'Files',
            'Stars', 'Emoji', 'Presence', 'RTM', 'Team', 'Reactions', 'Pins',
            'UserGroups', 'UserGroupsUsers', 'MPIM', 'OAuth', 'DND',
-           'FilesComments', 'Slacker']
+           'FilesComments', 'Reminders', 'Slacker']
 
 
 class Error(Exception):
@@ -712,6 +712,27 @@ class DND(BaseAPI):
         return self.post('dnd.endSnooze')
 
 
+class Reminders(BaseAPI):
+    def add(self, text, time, user=None):
+        return self.post('reminders.add', data={
+            'text': text,
+            'time': time,
+            'user': user,
+        })
+
+    def complete(self, reminder):
+        return self.post('reminders.complete', data={'reminder': reminder})
+
+    def delete(self, reminder):
+        return self.post('reminders.delete', data={'reminder': reminder})
+
+    def info(self, reminder):
+        return self.get('reminders.info', params={'reminder': reminder})
+
+    def list(self):
+        return self.get('reminders.list')
+
+
 class OAuth(BaseAPI):
     def access(self, client_id, client_secret, code, redirect_uri=None):
         return self.post('oauth.access',
@@ -762,6 +783,7 @@ class Slacker(object):
         self.groups = Groups(token=token, timeout=timeout)
         self.channels = Channels(token=token, timeout=timeout)
         self.presence = Presence(token=token, timeout=timeout)
+        self.reminders = Reminders(token=token, timeout=timeout)
         self.reactions = Reactions(token=token, timeout=timeout)
         self.usergroups = UserGroups(token=token, timeout=timeout)
         self.incomingwebhook = IncomingWebhook(url=incoming_webhook_url,
