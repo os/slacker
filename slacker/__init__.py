@@ -258,6 +258,15 @@ class Chat(BaseAPI):
                              'icon_emoji': icon_emoji
                          })
 
+
+    def command(self, channel, command, text):
+        return self.post('chat.command',
+                         data={
+                             'channel': channel,
+                             'command': command,
+                             'text': text
+                         })
+
     def update(self, channel, ts, text, attachments=None, parse=None,
                link_names=False, as_user=None):
         # Ensure attachments are json encoded
