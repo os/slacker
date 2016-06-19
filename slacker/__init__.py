@@ -26,7 +26,7 @@ DEFAULT_TIMEOUT = 10
 __all__ = ['Error', 'Response', 'BaseAPI', 'API', 'Auth', 'Users', 'Groups',
            'Channels', 'Chat', 'IM', 'IncomingWebhook', 'Search', 'Files',
            'Stars', 'Emoji', 'Presence', 'RTM', 'Team', 'Reactions', 'Pins',
-           'UserGroups', 'UserGroupsUsers', 'MPIM', 'OAuth', 'DND',
+           'UserGroups', 'UserGroupsUsers', 'MPIM', 'OAuth', 'DND', 'Bots',
            'FilesComments', 'Reminders', 'Slacker']
 
 
@@ -742,6 +742,11 @@ class Reminders(BaseAPI):
         return self.get('reminders.list')
 
 
+class Bots(BaseAPI):
+    def info(self, bot=None):
+        return self.get('bots.info', params={'bot': bot})
+
+
 class OAuth(BaseAPI):
     def access(self, client_id, client_secret, code, redirect_uri=None):
         return self.post('oauth.access',
@@ -780,6 +785,7 @@ class Slacker(object):
         self.dnd = DND(token=token, timeout=timeout)
         self.rtm = RTM(token=token, timeout=timeout)
         self.auth = Auth(token=token, timeout=timeout)
+        self.bots = Bots(token=token, timeout=timeout)
         self.chat = Chat(token=token, timeout=timeout)
         self.team = Team(token=token, timeout=timeout)
         self.pins = Pins(token=token, timeout=timeout)
