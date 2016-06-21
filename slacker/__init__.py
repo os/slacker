@@ -456,11 +456,11 @@ class Stars(BaseAPI):
                              'channel': channel,
                              'timestamp': timestamp
                          })
-    
+
     def list(self, user=None, count=None, page=None):
         return self.get('stars.list',
                         params={'user': user, 'count': count, 'page': page})
-    
+
     def remove(self, file_=None, file_comment=None, channel=None, timestamp=None):
         assert file_ or file_comment or channel
 
