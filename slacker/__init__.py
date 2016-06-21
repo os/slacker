@@ -278,7 +278,7 @@ class Chat(BaseAPI):
                              'ts': ts,
                              'text': text,
                              'attachments': attachments,
-                             'parse': None,
+                             'parse': parse,
                              'link_names': int(link_names),
                              'as_user': as_user,
                          })
