@@ -27,7 +27,8 @@ __all__ = ['Error', 'Response', 'BaseAPI', 'API', 'Auth', 'Users', 'Groups',
            'Channels', 'Chat', 'IM', 'IncomingWebhook', 'Search', 'Files',
            'Stars', 'Emoji', 'Presence', 'RTM', 'Team', 'Reactions', 'Pins',
            'UserGroups', 'UserGroupsUsers', 'MPIM', 'OAuth', 'DND', 'Bots',
-           'FilesComments', 'Reminders', 'Slacker']
+           'FilesComments', 'Reminders', 'TeamProfile', 'UsersProfile',
+           'Slacker']
 
 
 class Error(Exception):
@@ -83,7 +84,32 @@ class Auth(BaseAPI):
         return self.get('auth.test')
 
 
+class UsersProfile(BaseAPI):
+    def get(self, user=None, include_labels=False):
+        return super(UsersProfile, self).get(
+            'users.profile.get',
+            params={'user': user, 'include_labels': int(include_labels)}
+        )
+
+    def set(self, user=None, profile=None, name=None, value=None):
+        return self.post('users.profile.get',
+                         data={
+                             'user': user,
+                             'profile': profile,
+                             'name': name,
+                             'value': value
+                         })
+
+
 class Users(BaseAPI):
+    def __init__(self, *args, **kwargs):
+        super(Users, self).__init__(*args, **kwargs)
+        self._profile = UsersProfile(*args, **kwargs)
+
+    @property
+    def profile(self):
+        return self._profile
+
     def info(self, user):
         return self.get('users.info', params={'user': user})
 
@@ -498,7 +524,23 @@ class RTM(BaseAPI):
                         })
 
 
+class TeamProfile(BaseAPI):
+    def get(self, visibility=None):
+        return super(TeamProfile, self).get(
+            'users.profile.get',
+            params={'visibility': visibility}
+        )
+
+
 class Team(BaseAPI):
+    def __init__(self, *args, **kwargs):
+        super(Team, self).__init__(*args, **kwargs)
+        self._profile = TeamProfile(*args, **kwargs)
+
+    @property
+    def profile(self):
+        return self._profile
+
     def info(self):
         return self.get('team.info')
 
