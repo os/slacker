@@ -287,7 +287,6 @@ class Chat(BaseAPI):
                              'icon_emoji': icon_emoji
                          })
 
-
     def command(self, channel, command, text):
         return self.post('chat.command',
                          data={
