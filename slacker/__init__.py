@@ -566,6 +566,9 @@ class Team(BaseAPI):
                             'page': page,
                         })
 
+    def billable_info(self, user=None):
+        return self.get('team.billableInfo', params={'user': user})
+
 
 class Reactions(BaseAPI):
     def add(self, name, file_=None, file_comment=None, channel=None,
