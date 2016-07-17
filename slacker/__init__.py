@@ -83,6 +83,9 @@ class Auth(BaseAPI):
     def test(self):
         return self.get('auth.test')
 
+    def revoke(self, test=True):
+        return self.post('auth.revoke', data={'test': int(test)})
+
 
 class UsersProfile(BaseAPI):
     def get(self, user=None, include_labels=False):
