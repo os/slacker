@@ -324,14 +324,15 @@ class IM(BaseAPI):
         return self.get('im.list')
 
     def history(self, channel, latest=None, oldest=None, count=None,
-                inclusive=None):
+                inclusive=None, unreads=0):
         return self.get('im.history',
                         params={
                             'channel': channel,
                             'latest': latest,
                             'oldest': oldest,
                             'count': count,
-                            'inclusive': inclusive
+                            'inclusive': inclusive,
+                            'unreads' : unreads
                         })
 
     def mark(self, channel, ts):
