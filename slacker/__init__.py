@@ -95,7 +95,7 @@ class UsersProfile(BaseAPI):
         )
 
     def set(self, user=None, profile=None, name=None, value=None):
-        return self.post('users.profile.get',
+        return self.post('users.profile.set',
                          data={
                              'user': user,
                              'profile': profile,
