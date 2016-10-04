@@ -534,7 +534,7 @@ class RTM(BaseAPI):
 class TeamProfile(BaseAPI):
     def get(self, visibility=None):
         return super(TeamProfile, self).get(
-            'users.profile.get',
+            'team.profile.get',
             params={'visibility': visibility}
         )
 
