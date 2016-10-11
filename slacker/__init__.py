@@ -423,7 +423,7 @@ class FilesComments(BaseAPI):
 
     def edit(self, file_, id, comment):
         return self.post('files.comments.edit',
-                         data={'file': file, 'id': id, 'comment': comment})
+                         data={'file': file_, 'id': id, 'comment': comment})
 
 
 class Files(BaseAPI):
