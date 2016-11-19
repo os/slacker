@@ -28,7 +28,7 @@ __all__ = ['Error', 'Response', 'BaseAPI', 'API', 'Auth', 'Users', 'Groups',
            'Stars', 'Emoji', 'Presence', 'RTM', 'Team', 'Reactions', 'Pins',
            'UserGroups', 'UserGroupsUsers', 'MPIM', 'OAuth', 'DND', 'Bots',
            'FilesComments', 'Reminders', 'TeamProfile', 'UsersProfile',
-           'Slacker']
+           'IDPGroups', 'Slacker']
 
 
 class Error(Exception):
@@ -799,6 +799,12 @@ class Bots(BaseAPI):
         return self.get('bots.info', params={'bot': bot})
 
 
+class IDPGroups(BaseAPI):
+    def list(self, include_users=False):
+        return self.get('idpgroups.list',
+                        params={'include_users': int(include_users)})
+
+
 class OAuth(BaseAPI):
     def access(self, client_id, client_secret, code, redirect_uri=None):
         return self.post('oauth.access',
@@ -852,6 +858,7 @@ class Slacker(object):
         self.presence = Presence(token=token, timeout=timeout)
         self.reminders = Reminders(token=token, timeout=timeout)
         self.reactions = Reactions(token=token, timeout=timeout)
+        self.idpgroups = IDPGroups(token=token, timeout=timeout)
         self.usergroups = UserGroups(token=token, timeout=timeout)
         self.incomingwebhook = IncomingWebhook(url=incoming_webhook_url,
                                                timeout=timeout)
