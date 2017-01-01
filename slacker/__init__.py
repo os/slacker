@@ -26,7 +26,9 @@ DEFAULT_TIMEOUT = 10
 __all__ = ['Error', 'Response', 'BaseAPI', 'API', 'Auth', 'Users', 'Groups',
            'Channels', 'Chat', 'IM', 'IncomingWebhook', 'Search', 'Files',
            'Stars', 'Emoji', 'Presence', 'RTM', 'Team', 'Reactions', 'Pins',
-           'UserGroups', 'UserGroupsUsers', 'MPIM', 'OAuth', 'DND', 'Slacker']
+           'UserGroups', 'UserGroupsUsers', 'MPIM', 'OAuth', 'DND', 'Bots',
+           'FilesComments', 'Reminders', 'TeamProfile', 'UsersProfile',
+           'IDPGroups', 'Slacker']
 
 
 class Error(Exception):
@@ -86,8 +88,36 @@ class Auth(BaseAPI):
     def test(self):
         return self.get('auth.test')
 
+    def revoke(self, test=True):
+        return self.post('auth.revoke', data={'test': int(test)})
+
+
+class UsersProfile(BaseAPI):
+    def get(self, user=None, include_labels=False):
+        return super(UsersProfile, self).get(
+            'users.profile.get',
+            params={'user': user, 'include_labels': int(include_labels)}
+        )
+
+    def set(self, user=None, profile=None, name=None, value=None):
+        return self.post('users.profile.set',
+                         data={
+                             'user': user,
+                             'profile': profile,
+                             'name': name,
+                             'value': value
+                         })
+
 
 class Users(BaseAPI):
+    def __init__(self, *args, **kwargs):
+        super(Users, self).__init__(*args, **kwargs)
+        self._profile = UsersProfile(*args, **kwargs)
+
+    @property
+    def profile(self):
+        return self._profile
+
     def info(self, user):
         return self.get('users.info', params={'user': user})
 
@@ -101,7 +131,6 @@ class Users(BaseAPI):
         return self.get('users.getPresence', params={'user': user})
 
     def set_presence(self, presence):
-        assert presence in Presence.TYPES, 'Invalid presence type'
         return self.post('users.setPresence', data={'presence': presence})
 
     def get_user_id(self, user_name):
@@ -185,14 +214,15 @@ class Channels(BaseAPI):
                         params={'exclude_archived': exclude_archived})
 
     def history(self, channel, latest=None, oldest=None, count=None,
-                inclusive=None):
+                inclusive=False, unreads=False):
         return self.get('channels.history',
                         params={
                             'channel': channel,
                             'latest': latest,
                             'oldest': oldest,
                             'count': count,
-                            'inclusive': inclusive
+                            'inclusive': int(inclusive),
+                            'unreads': int(unreads)
                         })
 
     def mark(self, channel, ts):
@@ -241,7 +271,7 @@ class Chat(BaseAPI):
                      parse=None, link_names=None, attachments=None,
                      unfurl_links=None, unfurl_media=None, icon_url=None,
                      icon_emoji=None):
-       
+
         # Ensure attachments are json encoded
         if attachments:
             if isinstance(attachments, list):
@@ -262,9 +292,33 @@ class Chat(BaseAPI):
                              'icon_emoji': icon_emoji
                          })
 
-    def update(self, channel, ts, text):
+    def me_message(self, channel, text):
+        return self.post('chat.meMessage',
+                         data={'channel': channel, 'text': text})
+
+    def command(self, channel, command, text):
+        return self.post('chat.command',
+                         data={
+                             'channel': channel,
+                             'command': command,
+                             'text': text
+                         })
+
+    def update(self, channel, ts, text, attachments=None, parse=None,
+               link_names=False, as_user=None):
+        # Ensure attachments are json encoded
+        if attachments and isinstance(attachments, list):
+            attachments = json.dumps(attachments)
         return self.post('chat.update',
-                         data={'channel': channel, 'ts': ts, 'text': text})
+                         data={
+                             'channel': channel,
+                             'ts': ts,
+                             'text': text,
+                             'attachments': attachments,
+                             'parse': parse,
+                             'link_names': int(link_names),
+                             'as_user': as_user,
+                         })
 
     def delete(self, channel, ts):
         return self.post('chat.delete', data={'channel': channel, 'ts': ts})
@@ -275,14 +329,15 @@ class IM(BaseAPI):
         return self.get('im.list')
 
     def history(self, channel, latest=None, oldest=None, count=None,
-                inclusive=None):
+                inclusive=None, unreads=False):
         return self.get('im.history',
                         params={
                             'channel': channel,
                             'latest': latest,
                             'oldest': oldest,
                             'count': count,
-                            'inclusive': inclusive
+                            'inclusive': inclusive,
+                            'unreads' : int(unreads)
                         })
 
     def mark(self, channel, ts):
@@ -300,7 +355,7 @@ class MPIM(BaseAPI):
         if isinstance(users, (tuple, list)):
             users = ','.join(users)
 
-        return self.post('mpim.open', data={'user': users})
+        return self.post('mpim.open', data={'users': users})
 
     def close(self, channel):
         return self.post('mpim.close', data={'channel': channel})
@@ -362,7 +417,29 @@ class Search(BaseAPI):
                         })
 
 
+class FilesComments(BaseAPI):
+    def add(self, file_, comment):
+        return self.post('files.comments.add',
+                         data={'file': file_, 'comment': comment})
+
+    def delete(self, file_, id):
+        return self.post('files.comments.delete',
+                         data={'file': file_, 'id': id})
+
+    def edit(self, file_, id, comment):
+        return self.post('files.comments.edit',
+                         data={'file': file_, 'id': id, 'comment': comment})
+
+
 class Files(BaseAPI):
+    def __init__(self, *args, **kwargs):
+        super(Files, self).__init__(*args, **kwargs)
+        self._comments = FilesComments(*args, **kwargs)
+
+    @property
+    def comments(self):
+        return self._comments
+
     def list(self, user=None, ts_from=None, ts_to=None, types=None,
              count=None, page=None):
         return self.get('files.list',
@@ -399,11 +476,39 @@ class Files(BaseAPI):
     def delete(self, file_):
         return self.post('files.delete', data={'file': file_})
 
+    def revoke_public_url(self, file_):
+        return self.post('files.revokePublicURL', data={'file': file_})
+
+    def shared_public_url(self, file_):
+        return self.post('files.sharedPublicURL', data={'file': file_})
+
 
 class Stars(BaseAPI):
+    def add(self, file_=None, file_comment=None, channel=None, timestamp=None):
+        assert file_ or file_comment or channel
+
+        return self.post('stars.add',
+                         data={
+                             'file': file_,
+                             'file_comment': file_comment,
+                             'channel': channel,
+                             'timestamp': timestamp
+                         })
+
     def list(self, user=None, count=None, page=None):
         return self.get('stars.list',
                         params={'user': user, 'count': count, 'page': page})
+
+    def remove(self, file_=None, file_comment=None, channel=None, timestamp=None):
+        assert file_ or file_comment or channel
+
+        return self.post('stars.remove',
+                         data={
+                             'file': file_,
+                             'file_comment': file_comment,
+                             'channel': channel,
+                             'timestamp': timestamp
+                         })
 
 
 class Emoji(BaseAPI):
@@ -422,17 +527,53 @@ class Presence(BaseAPI):
 
 
 class RTM(BaseAPI):
-    def start(self):
-        return self.get('rtm.start')
+    def start(self, simple_latest=False, no_unreads=False, mpim_aware=False):
+        return self.get('rtm.start',
+                        params={
+                            'simple_latest': int(simple_latest),
+                            'no_unreads': int(no_unreads),
+                            'mpim_aware': int(mpim_aware),
+                        })
+
+
+class TeamProfile(BaseAPI):
+    def get(self, visibility=None):
+        return super(TeamProfile, self).get(
+            'team.profile.get',
+            params={'visibility': visibility}
+        )
 
 
 class Team(BaseAPI):
+    def __init__(self, *args, **kwargs):
+        super(Team, self).__init__(*args, **kwargs)
+        self._profile = TeamProfile(*args, **kwargs)
+
+    @property
+    def profile(self):
+        return self._profile
+
     def info(self):
         return self.get('team.info')
 
     def access_logs(self, count=None, page=None):
         return self.get('team.accessLogs',
                         params={'count': count, 'page': page})
+
+    def integration_logs(self, service_id=None, app_id=None, user=None,
+                         change_type=None, count=None, page=None):
+        return self.get('team.integrationLogs',
+                        params={
+                            'service_id': service_id,
+                            'app_id': app_id,
+                            'user': user,
+                            'change_type': change_type,
+                            'count': count,
+                            'page': page,
+                        })
+
+    def billable_info(self, user=None):
+        return self.get('team.billableInfo', params={'user': user})
 
 
 class Reactions(BaseAPI):
@@ -637,6 +778,38 @@ class DND(BaseAPI):
         return self.post('dnd.endSnooze')
 
 
+class Reminders(BaseAPI):
+    def add(self, text, time, user=None):
+        return self.post('reminders.add', data={
+            'text': text,
+            'time': time,
+            'user': user,
+        })
+
+    def complete(self, reminder):
+        return self.post('reminders.complete', data={'reminder': reminder})
+
+    def delete(self, reminder):
+        return self.post('reminders.delete', data={'reminder': reminder})
+
+    def info(self, reminder):
+        return self.get('reminders.info', params={'reminder': reminder})
+
+    def list(self):
+        return self.get('reminders.list')
+
+
+class Bots(BaseAPI):
+    def info(self, bot=None):
+        return self.get('bots.info', params={'bot': bot})
+
+
+class IDPGroups(BaseAPI):
+    def list(self, include_users=False):
+        return self.get('idpgroups.list',
+                        params={'include_users': int(include_users)})
+
+
 class OAuth(BaseAPI):
     def access(self, client_id, client_secret, code, redirect_uri=None):
         return self.post('oauth.access',
@@ -670,15 +843,13 @@ class Slacker(object):
     oauth = OAuth(timeout=DEFAULT_TIMEOUT)
 
     def __init__(self, token, incoming_webhook_url=None,
-                 timeout=DEFAULT_TIMEOUT, httpProxy=None, httpsProxy=None):
-
-        proxies = self.__createProxies(httpProxy, httpsProxy)
-        oauth.setProxies(proxies)
+                 timeout=DEFAULT_TIMEOUT):
         self.im = IM(token=token, timeout=timeout, proxies=proxies)
         self.api = API(token=token, timeout=timeout, proxies=proxies)
         self.dnd = DND(token=token, timeout=timeout, proxies=proxies)
         self.rtm = RTM(token=token, timeout=timeout, proxies=proxies)
         self.auth = Auth(token=token, timeout=timeout, proxies=proxies)
+        self.bots = Bots(token=token, timeout=timeout, proxies=proxies)
         self.chat = Chat(token=token, timeout=timeout, proxies=proxies)
         self.team = Team(token=token, timeout=timeout, proxies=proxies)
         self.pins = Pins(token=token, timeout=timeout, proxies=proxies)
@@ -691,7 +862,9 @@ class Slacker(object):
         self.groups = Groups(token=token, timeout=timeout, proxies=proxies)
         self.channels = Channels(token=token, timeout=timeout, proxies=proxies)
         self.presence = Presence(token=token, timeout=timeout, proxies=proxies)
+        self.reminders = Reminders(token=token, timeout=timeout, proxies=proxies)
         self.reactions = Reactions(token=token, timeout=timeout, proxies=proxies)
+        self.idpgroups = IDPGroups(token=token, timeout=timeout, proxies=proxies)
         self.usergroups = UserGroups(token=token, timeout=timeout, proxies=proxies)
         self.incomingwebhook = IncomingWebhook(url=incoming_webhook_url,
                                                timeout=timeout, proxies=proxies)

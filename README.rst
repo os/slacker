@@ -4,7 +4,7 @@ Slacker
 
 |pypi|_
 |build status|_
-|pypi downloads|_
+|gitter chat|_
 
 .. image:: https://raw.githubusercontent.com/os/slacker/master/static/slacker.jpg
 
@@ -23,7 +23,7 @@ Examples
     slack = Slacker('<your-slack-api-token-goes-here>')
 
     # Send a message to #general channel
-    slack.chat.post_message('#general', 'Hello fellow slackers!', as_user=True)
+    slack.chat.post_message('#general', 'Hello fellow slackers!')
 
     # Get users list
     response = slack.users.list()
@@ -57,11 +57,5 @@ https://api.slack.com/methods
 .. _build status: http://travis-ci.org/os/slacker
 .. |pypi| image:: https://img.shields.io/pypi/v/Slacker.svg
 .. _pypi: https://pypi.python.org/pypi/slacker/
-.. |pypi downloads| image:: https://img.shields.io/pypi/dm/Slacker.svg
-.. _pypi downloads: https://pypi.python.org/pypi/slacker/
-
-
-
-.. image:: https://badges.gitter.im/Join%20Chat.svg
-   :alt: Join the chat at https://gitter.im/os/slacker
-   :target: https://gitter.im/os/slacker?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge
+.. |gitter chat| image:: https://badges.gitter.im/Join%20Chat.svg
+.. _gitter chat: https://gitter.im/os/slacker?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge
