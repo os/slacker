@@ -104,14 +104,30 @@ class UsersProfile(BaseAPI):
                          })
 
 
+class UsersAdmin(BaseAPI):
+    def invite(self, email, channels=None, first_name=None,
+               last_name=None, resend=True):
+        return self.post('users.admin.invite', params={
+            'email': email,
+            'channels': channels,
+            'first_name': first_name,
+            'last_name': last_name,
+            'resend': resend})
+
+
 class Users(BaseAPI):
     def __init__(self, *args, **kwargs):
         super(Users, self).__init__(*args, **kwargs)
         self._profile = UsersProfile(*args, **kwargs)
+        self._admin = UsersAdmin(*args, **kwargs)
 
     @property
     def profile(self):
         return self._profile
+
+    @property
+    def admin(self):
+        return self._admin
 
     def info(self, user):
         return self.get('users.info', params={'user': user})
