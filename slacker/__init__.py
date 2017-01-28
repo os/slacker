@@ -378,6 +378,10 @@ class MPIM(BaseAPI):
                             'unreads': int(unreads)
                         })
 
+    def replies(self, channel, thread_ts):
+        return self.get('mpim.replies',
+                        params={'channel': channel, 'thread_ts': thread_ts})
+
 
 class Search(BaseAPI):
     def all(self, query, sort=None, sort_dir=None, highlight=None, count=None,
