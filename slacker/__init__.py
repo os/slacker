@@ -451,22 +451,25 @@ class Files(BaseAPI):
         return self.get('files.info',
                         params={'file': file_, 'count': count, 'page': page})
 
-    def upload(self, file_, content=None, filetype=None, filename=None,
+    def upload(self, file_=None, content=None, filetype=None, filename=None,
                title=None, initial_comment=None, channels=None):
-        with open(file_, 'rb') as f:
-            if isinstance(channels, (tuple, list)):
-                channels = ','.join(channels)
+        if isinstance(channels, (tuple, list)):
+            channels = ','.join(channels)
 
-            return self.post('files.upload',
-                             data={
-                                 'content': content,
-                                 'filetype': filetype,
-                                 'filename': filename,
-                                 'title': title,
-                                 'initial_comment': initial_comment,
-                                 'channels': channels
-                             },
-                             files={'file': f})
+        data = {
+            'content': content,
+            'filetype': filetype,
+            'filename': filename,
+            'title': title,
+            'initial_comment': initial_comment,
+            'channels': channels
+        }
+
+        if file_:
+            with open(file_, 'rb') as f:
+                return self.post('files.upload', data=data, files={'file': f})
+        else:
+            return self.post('files.upload', data=data)
 
     def delete(self, file_):
         return self.post('files.delete', data={'file': file_})
