@@ -12,7 +12,7 @@ setup(
     install_requires=['requests >= 2.2.1'],
     license='http://www.apache.org/licenses/LICENSE-2.0',
     test_suite='tests',
-    classifiers=(
+    classifiers=[
         'Intended Audience :: Developers',
         'License :: OSI Approved :: Apache Software License',
         'Natural Language :: English',
@@ -22,6 +22,6 @@ setup(
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.3',
         'Programming Language :: Python :: 3.4'
-    ),
+    ],
     keywords='slack api'
 )
