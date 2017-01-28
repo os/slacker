@@ -315,8 +315,13 @@ class Chat(BaseAPI):
                              'as_user': as_user,
                          })
 
-    def delete(self, channel, ts):
-        return self.post('chat.delete', data={'channel': channel, 'ts': ts})
+    def delete(self, channel, ts, as_user=False):
+        return self.post('chat.delete',
+                         data={
+                             'channel': channel,
+                             'ts': ts,
+                             'as_user': as_user
+                         })
 
 
 class IM(BaseAPI):
