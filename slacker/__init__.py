@@ -343,6 +343,10 @@ class IM(BaseAPI):
                             'unreads' : int(unreads)
                         })
 
+    def replies(self, channel, thread_ts):
+        return self.get('im.replies',
+                        params={'channel': channel, 'thread_ts': thread_ts})
+
     def mark(self, channel, ts):
         return self.post('im.mark', data={'channel': channel, 'ts': ts})
 
