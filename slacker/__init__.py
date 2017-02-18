@@ -119,6 +119,9 @@ class Users(BaseAPI):
     def list(self, presence=False):
         return self.get('users.list', params={'presence': int(presence)})
 
+    def identity(self):
+        return self.get('users.identity')
+
     def set_active(self):
         return self.post('users.setActive')
 
