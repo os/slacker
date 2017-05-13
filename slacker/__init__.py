@@ -207,9 +207,10 @@ class Channels(BaseAPI):
     def info(self, channel):
         return self.get('channels.info', params={'channel': channel})
 
-    def list(self, exclude_archived=None):
+    def list(self, exclude_archived=None, exclude_members=None):
         return self.get('channels.list',
-                        params={'exclude_archived': exclude_archived})
+                        params={'exclude_archived': exclude_archived,
+                                'exclude_members': exclude_members})
 
     def history(self, channel, latest=None, oldest=None, count=None,
                 inclusive=False, unreads=False):
@@ -881,3 +882,4 @@ class Slacker(object):
         self.usergroups = UserGroups(token=token, timeout=timeout)
         self.incomingwebhook = IncomingWebhook(url=incoming_webhook_url,
                                                timeout=timeout)
+
