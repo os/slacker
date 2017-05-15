@@ -46,9 +46,10 @@ class Response(object):
 
 
 class BaseAPI(object):
-    def __init__(self, token=None, timeout=DEFAULT_TIMEOUT):
+    def __init__(self, token=None, timeout=DEFAULT_TIMEOUT, proxies=None):
         self.token = token
         self.timeout = timeout
+        self.proxies = proxies
 
     def _request(self, method, api, **kwargs):
         if self.token:
@@ -56,6 +57,7 @@ class BaseAPI(object):
 
         response = method(API_BASE_URL.format(api=api),
                           timeout=self.timeout,
+                          proxies=self.proxies,
                           **kwargs)
 
         response.raise_for_status()
@@ -71,6 +73,9 @@ class BaseAPI(object):
 
     def post(self, api, **kwargs):
         return self._request(requests.post, api, **kwargs)
+
+    def setProxies(self, proxies):
+        self.proxies = proxies
 
 
 class API(BaseAPI):
@@ -860,9 +865,10 @@ class OAuth(BaseAPI):
 
 
 class IncomingWebhook(object):
-    def __init__(self, url=None, timeout=DEFAULT_TIMEOUT):
+    def __init__(self, url=None, timeout=DEFAULT_TIMEOUT, proxies=None):
         self.url = url
         self.timeout = timeout
+        self.proxies = proxies
 
     def post(self, data):
         """
@@ -873,7 +879,7 @@ class IncomingWebhook(object):
             raise Error('URL for incoming webhook is undefined')
 
         return requests.post(self.url, data=json.dumps(data),
-                             timeout=self.timeout)
+                             timeout=self.timeout, proxies=self.proxies)
 
 
 class Slacker(object):
@@ -881,27 +887,35 @@ class Slacker(object):
 
     def __init__(self, token, incoming_webhook_url=None,
                  timeout=DEFAULT_TIMEOUT):
-        self.im = IM(token=token, timeout=timeout)
-        self.api = API(token=token, timeout=timeout)
-        self.dnd = DND(token=token, timeout=timeout)
-        self.rtm = RTM(token=token, timeout=timeout)
-        self.auth = Auth(token=token, timeout=timeout)
-        self.bots = Bots(token=token, timeout=timeout)
-        self.chat = Chat(token=token, timeout=timeout)
-        self.team = Team(token=token, timeout=timeout)
-        self.pins = Pins(token=token, timeout=timeout)
-        self.mpim = MPIM(token=token, timeout=timeout)
-        self.users = Users(token=token, timeout=timeout)
-        self.files = Files(token=token, timeout=timeout)
-        self.stars = Stars(token=token, timeout=timeout)
-        self.emoji = Emoji(token=token, timeout=timeout)
-        self.search = Search(token=token, timeout=timeout)
-        self.groups = Groups(token=token, timeout=timeout)
-        self.channels = Channels(token=token, timeout=timeout)
-        self.presence = Presence(token=token, timeout=timeout)
-        self.reminders = Reminders(token=token, timeout=timeout)
-        self.reactions = Reactions(token=token, timeout=timeout)
-        self.idpgroups = IDPGroups(token=token, timeout=timeout)
-        self.usergroups = UserGroups(token=token, timeout=timeout)
+        self.im = IM(token=token, timeout=timeout, proxies=proxies)
+        self.api = API(token=token, timeout=timeout, proxies=proxies)
+        self.dnd = DND(token=token, timeout=timeout, proxies=proxies)
+        self.rtm = RTM(token=token, timeout=timeout, proxies=proxies)
+        self.auth = Auth(token=token, timeout=timeout, proxies=proxies)
+        self.bots = Bots(token=token, timeout=timeout, proxies=proxies)
+        self.chat = Chat(token=token, timeout=timeout, proxies=proxies)
+        self.team = Team(token=token, timeout=timeout, proxies=proxies)
+        self.pins = Pins(token=token, timeout=timeout, proxies=proxies)
+        self.mpim = MPIM(token=token, timeout=timeout, proxies=proxies)
+        self.users = Users(token=token, timeout=timeout, proxies=proxies)
+        self.files = Files(token=token, timeout=timeout, proxies=proxies)
+        self.stars = Stars(token=token, timeout=timeout, proxies=proxies)
+        self.emoji = Emoji(token=token, timeout=timeout, proxies=proxies)
+        self.search = Search(token=token, timeout=timeout, proxies=proxies)
+        self.groups = Groups(token=token, timeout=timeout, proxies=proxies)
+        self.channels = Channels(token=token, timeout=timeout, proxies=proxies)
+        self.presence = Presence(token=token, timeout=timeout, proxies=proxies)
+        self.reminders = Reminders(token=token, timeout=timeout, proxies=proxies)
+        self.reactions = Reactions(token=token, timeout=timeout, proxies=proxies)
+        self.idpgroups = IDPGroups(token=token, timeout=timeout, proxies=proxies)
+        self.usergroups = UserGroups(token=token, timeout=timeout, proxies=proxies)
         self.incomingwebhook = IncomingWebhook(url=incoming_webhook_url,
-                                               timeout=timeout)
+                                               timeout=timeout, proxies=proxies)
+
+    def __createProxies(self, httpProxy=None, httpsProxy=None):
+        proxies = dict()
+        if (httpProxy is not None):
+            proxies['http'] = httpProxy
+        if (httpsProxy is not None):
+            proxies['https'] = httpsProxy
+        return proxies

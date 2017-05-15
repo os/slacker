@@ -32,6 +32,14 @@ Examples
     # Upload a file
     slack.files.upload('hello.txt')
 
+    # If you need to proxy the requests
+
+    proxyEndpoint = 'http://myproxy:3128'
+    slack = Slacker('<your-slack-api-token-goes-here>', httpProxy=proxyEndpoint, httpsProxy=proxyEndpoint)
+
+    # Send a message to #general channel
+    slack.chat.post_message('#general', 'Hello fellow slackers!', as_user=True)
+
 Installation
 ============
 
