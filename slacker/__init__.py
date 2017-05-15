@@ -550,6 +550,9 @@ class RTM(BaseAPI):
                             'mpim_aware': int(mpim_aware),
                         })
 
+    def connect(self):
+        return self.get('rtm.connect')
+
 
 class TeamProfile(BaseAPI):
     def get(self, visibility=None):
@@ -882,4 +885,3 @@ class Slacker(object):
         self.usergroups = UserGroups(token=token, timeout=timeout)
         self.incomingwebhook = IncomingWebhook(url=incoming_webhook_url,
                                                timeout=timeout)
-
