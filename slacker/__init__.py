@@ -131,19 +131,6 @@ class Users(BaseAPI):
     def set_presence(self, presence):
         return self.post('users.setPresence', data={'presence': presence})
 
-    def delete_photo(self):
-        return self.post('users.deletePhoto')
-
-    def set_photo(self, image_, crop_x=None, crop_y=None, crop_w=None):
-        with open(image_, 'rb') as image:
-            return self.post('users.setPhoto',
-                             data={
-                                 'crop_x': crop_x,
-                                 'crop_y': crop_y,
-                                 'crop_w': crop_w
-                             },
-                             files={'image': image})
-
     def get_user_id(self, user_name):
         members = self.list().body['members']
         return get_item_id_by_name(members, user_name)
