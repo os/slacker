@@ -325,7 +325,7 @@ class Chat(BaseAPI):
     def update(self, channel, ts, text, attachments=None, parse=None,
                link_names=False, as_user=None):
         # Ensure attachments are json encoded
-        if attachments and isinstance(attachments, list):
+        if attachments is not None and isinstance(attachments, list):
             attachments = json.dumps(attachments)
         return self.post('chat.update',
                          data={
