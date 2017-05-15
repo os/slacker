@@ -453,7 +453,7 @@ class Files(BaseAPI):
         return self._comments
 
     def list(self, user=None, ts_from=None, ts_to=None, types=None,
-             count=None, page=None):
+             count=None, page=None, channel=None):
         return self.get('files.list',
                         params={
                             'user': user,
@@ -461,7 +461,8 @@ class Files(BaseAPI):
                             'ts_to': ts_to,
                             'types': types,
                             'count': count,
-                            'page': page
+                            'page': page,
+                            'channel': channel
                         })
 
     def info(self, file_, count=None, page=None):
