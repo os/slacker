@@ -41,6 +41,8 @@ class Response(object):
         self.body = json.loads(body)
         self.successful = self.body['ok']
         self.error = self.body.get('error')
+    def __str__(self):
+        return json.dumps(self.body)
 
 
 class BaseAPI(object):
