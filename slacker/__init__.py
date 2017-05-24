@@ -47,10 +47,12 @@ class Response(object):
 
 
 class BaseAPI(object):
-    def __init__(self, token=None, timeout=DEFAULT_TIMEOUT, proxies=None):
+    def __init__(self, token=None, timeout=DEFAULT_TIMEOUT, proxies=None,
+                 session=None):
         self.token = token
         self.timeout = timeout
         self.proxies = proxies
+        self.session = session
 
     def _request(self, method, api, **kwargs):
         if self.token:
@@ -69,11 +71,24 @@ class BaseAPI(object):
 
         return response
 
+    def _session_get(self, url, params=None, **kwargs):
+        kwargs.setdefault('allow_redirects', True)
+        return self.session.request(
+            method='get', url=url, params=params, **kwargs)
+
+    def _session_post(self, url, data=None, json=None, **kwargs):
+        return self.session.request(
+            method='post', url=url, data=data, json=json, **kwargs)
+
     def get(self, api, **kwargs):
-        return self._request(requests.get, api, **kwargs)
+        return self._request(
+            self._session_get if self.session else requests.get,
+            api, **kwargs)
 
     def post(self, api, **kwargs):
-        return self._request(requests.post, api, **kwargs)
+        return self._request(
+            self._session_post if self.session else requests.post,
+            api, **kwargs)
 
     def setProxies(self, proxies):
         self.proxies = proxies
@@ -887,31 +902,38 @@ class Slacker(object):
     oauth = OAuth(timeout=DEFAULT_TIMEOUT)
 
     def __init__(self, token, incoming_webhook_url=None,
-                 timeout=DEFAULT_TIMEOUT, http_proxy=None, https_proxy=None):
+                 timeout=DEFAULT_TIMEOUT, http_proxy=None, https_proxy=None,
+                 session=None):
 
         proxies = self.__create_proxies(http_proxy, https_proxy)
-        self.im = IM(token=token, timeout=timeout, proxies=proxies)
-        self.api = API(token=token, timeout=timeout, proxies=proxies)
-        self.dnd = DND(token=token, timeout=timeout, proxies=proxies)
-        self.rtm = RTM(token=token, timeout=timeout, proxies=proxies)
-        self.auth = Auth(token=token, timeout=timeout, proxies=proxies)
-        self.bots = Bots(token=token, timeout=timeout, proxies=proxies)
-        self.chat = Chat(token=token, timeout=timeout, proxies=proxies)
-        self.team = Team(token=token, timeout=timeout, proxies=proxies)
-        self.pins = Pins(token=token, timeout=timeout, proxies=proxies)
-        self.mpim = MPIM(token=token, timeout=timeout, proxies=proxies)
-        self.users = Users(token=token, timeout=timeout, proxies=proxies)
-        self.files = Files(token=token, timeout=timeout, proxies=proxies)
-        self.stars = Stars(token=token, timeout=timeout, proxies=proxies)
-        self.emoji = Emoji(token=token, timeout=timeout, proxies=proxies)
-        self.search = Search(token=token, timeout=timeout, proxies=proxies)
-        self.groups = Groups(token=token, timeout=timeout, proxies=proxies)
-        self.channels = Channels(token=token, timeout=timeout, proxies=proxies)
-        self.presence = Presence(token=token, timeout=timeout, proxies=proxies)
-        self.reminders = Reminders(token=token, timeout=timeout, proxies=proxies)
-        self.reactions = Reactions(token=token, timeout=timeout, proxies=proxies)
-        self.idpgroups = IDPGroups(token=token, timeout=timeout, proxies=proxies)
-        self.usergroups = UserGroups(token=token, timeout=timeout, proxies=proxies)
+        net_args = {
+            'token': token,
+            'timeout': timeout,
+            'proxies': proxies,
+            'session': session,
+        }
+        self.im = IM(**net_args)
+        self.api = API(**net_args)
+        self.dnd = DND(**net_args)
+        self.rtm = RTM(**net_args)
+        self.auth = Auth(**net_args)
+        self.bots = Bots(**net_args)
+        self.chat = Chat(**net_args)
+        self.team = Team(**net_args)
+        self.pins = Pins(**net_args)
+        self.mpim = MPIM(**net_args)
+        self.users = Users(**net_args)
+        self.files = Files(**net_args)
+        self.stars = Stars(**net_args)
+        self.emoji = Emoji(**net_args)
+        self.search = Search(**net_args)
+        self.groups = Groups(**net_args)
+        self.channels = Channels(**net_args)
+        self.presence = Presence(**net_args)
+        self.reminders = Reminders(**net_args)
+        self.reactions = Reactions(**net_args)
+        self.idpgroups = IDPGroups(**net_args)
+        self.usergroups = UserGroups(**net_args)
         self.incomingwebhook = IncomingWebhook(url=incoming_webhook_url,
                                                timeout=timeout, proxies=proxies)
 

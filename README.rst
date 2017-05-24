@@ -33,12 +33,19 @@ Examples
     slack.files.upload('hello.txt')
 
     # If you need to proxy the requests
-
     proxy_endpoint = 'http://myproxy:3128'
     slack = Slacker('<your-slack-api-token-goes-here>', http_proxy=proxy_endpoint, https_proxy=proxy_endpoint)
 
     # Send a message to #general channel
     slack.chat.post_message('#general', 'Hello fellow slackers!', as_user=True)
+
+    # Advanced: Use `request.Session` for connection pooling (reuse)
+    with requests.sessions.Session() as session:
+        slack = Slacker(token, session=session)
+        response = slack.users.list()
+        slack.chat.post_message('#general', 'All these requests')
+        slack.chat.post_message('#general', 'go through')
+        slack.chat.post_message('#general', 'a single https connection')
 
 Installation
 ============
