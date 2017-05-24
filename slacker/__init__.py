@@ -887,7 +887,9 @@ class Slacker(object):
     oauth = OAuth(timeout=DEFAULT_TIMEOUT)
 
     def __init__(self, token, incoming_webhook_url=None,
-                 timeout=DEFAULT_TIMEOUT):
+                 timeout=DEFAULT_TIMEOUT, http_proxy=None, https_proxy=None):
+
+        proxies = self.__create_proxies(http_proxy, https_proxy)
         self.im = IM(token=token, timeout=timeout, proxies=proxies)
         self.api = API(token=token, timeout=timeout, proxies=proxies)
         self.dnd = DND(token=token, timeout=timeout, proxies=proxies)
@@ -913,10 +915,10 @@ class Slacker(object):
         self.incomingwebhook = IncomingWebhook(url=incoming_webhook_url,
                                                timeout=timeout, proxies=proxies)
 
-    def __createProxies(self, httpProxy=None, httpsProxy=None):
+    def __create_proxies(self, http_proxy=None, https_proxy=None):
         proxies = dict()
-        if (httpProxy is not None):
-            proxies['http'] = httpProxy
-        if (httpsProxy is not None):
-            proxies['https'] = httpsProxy
+        if http_proxy:
+            proxies['http'] = http_proxy
+        if https_proxy:
+            proxies['https'] = https_proxy
         return proxies
