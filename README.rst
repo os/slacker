@@ -34,8 +34,8 @@ Examples
 
     # If you need to proxy the requests
 
-    proxyEndpoint = 'http://myproxy:3128'
-    slack = Slacker('<your-slack-api-token-goes-here>', httpProxy=proxyEndpoint, httpsProxy=proxyEndpoint)
+    proxy_endpoint = 'http://myproxy:3128'
+    slack = Slacker('<your-slack-api-token-goes-here>', http_proxy=proxy_endpoint, https_proxy=proxy_endpoint)
 
     # Send a message to #general channel
     slack.chat.post_message('#general', 'Hello fellow slackers!', as_user=True)
