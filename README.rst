@@ -40,7 +40,8 @@ Examples
     slack.chat.post_message('#general', 'Hello fellow slackers!', as_user=True)
 
     # Advanced: Use `request.Session` for connection pooling (reuse)
-    with requests.sessions.Session() as session:
+    from requests.sessions import Session
+    with Session() as session:
         slack = Slacker(token, session=session)
         response = slack.users.list()
         slack.chat.post_message('#general', 'All these requests')
