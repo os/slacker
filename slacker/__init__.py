@@ -79,9 +79,9 @@ class BaseAPI(object):
             method='get', url=url, params=params, **kwargs
         )
 
-    def _session_post(self, url, data=None, json=None, **kwargs):
+    def _session_post(self, url, data=None, **kwargs):
         return self.session.request(
-            method='post', url=url, data=data, json=json, **kwargs
+            method='post', url=url, data=data, **kwargs
         )
 
     def get(self, api, **kwargs):
