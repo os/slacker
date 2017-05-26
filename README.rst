@@ -43,7 +43,6 @@ Examples
     from requests.sessions import Session
     with Session() as session:
         slack = Slacker(token, session=session)
-        response = slack.users.list()
         slack.chat.post_message('#general', 'All these requests')
         slack.chat.post_message('#general', 'go through')
         slack.chat.post_message('#general', 'a single https connection')
