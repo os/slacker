@@ -95,9 +95,6 @@ class BaseAPI(object):
             api, **kwargs
         )
 
-    def setProxies(self, proxies):
-        self.proxies = proxies
-
 
 class API(BaseAPI):
     def test(self, error=None, **kwargs):
