@@ -18,6 +18,7 @@ import requests
 
 from slacker.utils import get_item_id_by_name
 
+
 __version__ = '0.9.42'
 
 API_BASE_URL = 'https://slack.com/api/{api}'
