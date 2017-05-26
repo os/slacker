@@ -75,21 +75,25 @@ class BaseAPI(object):
     def _session_get(self, url, params=None, **kwargs):
         kwargs.setdefault('allow_redirects', True)
         return self.session.request(
-            method='get', url=url, params=params, **kwargs)
+            method='get', url=url, params=params, **kwargs
+        )
 
     def _session_post(self, url, data=None, json=None, **kwargs):
         return self.session.request(
-            method='post', url=url, data=data, json=json, **kwargs)
+            method='post', url=url, data=data, json=json, **kwargs
+        )
 
     def get(self, api, **kwargs):
         return self._request(
             self._session_get if self.session else requests.get,
-            api, **kwargs)
+            api, **kwargs
+        )
 
     def post(self, api, **kwargs):
         return self._request(
             self._session_post if self.session else requests.post,
-            api, **kwargs)
+            api, **kwargs
+        )
 
     def setProxies(self, proxies):
         self.proxies = proxies
