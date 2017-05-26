@@ -131,12 +131,14 @@ class UsersProfile(BaseAPI):
 class UsersAdmin(BaseAPI):
     def invite(self, email, channels=None, first_name=None,
                last_name=None, resend=True):
-        return self.post('users.admin.invite', params={
-            'email': email,
-            'channels': channels,
-            'first_name': first_name,
-            'last_name': last_name,
-            'resend': resend})
+        return self.post('users.admin.invite',
+                         params={
+                             'email': email,
+                             'channels': channels,
+                             'first_name': first_name,
+                             'last_name': last_name,
+                             'resend': resend
+                         })
 
 
 class Users(BaseAPI):
