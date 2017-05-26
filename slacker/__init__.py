@@ -911,34 +911,34 @@ class Slacker(object):
                  session=None):
 
         proxies = self.__create_proxies(http_proxy, https_proxy)
-        net_args = {
+        api_args = {
             'token': token,
             'timeout': timeout,
             'proxies': proxies,
             'session': session,
         }
-        self.im = IM(**net_args)
-        self.api = API(**net_args)
-        self.dnd = DND(**net_args)
-        self.rtm = RTM(**net_args)
-        self.auth = Auth(**net_args)
-        self.bots = Bots(**net_args)
-        self.chat = Chat(**net_args)
-        self.team = Team(**net_args)
-        self.pins = Pins(**net_args)
-        self.mpim = MPIM(**net_args)
-        self.users = Users(**net_args)
-        self.files = Files(**net_args)
-        self.stars = Stars(**net_args)
-        self.emoji = Emoji(**net_args)
-        self.search = Search(**net_args)
-        self.groups = Groups(**net_args)
-        self.channels = Channels(**net_args)
-        self.presence = Presence(**net_args)
-        self.reminders = Reminders(**net_args)
-        self.reactions = Reactions(**net_args)
-        self.idpgroups = IDPGroups(**net_args)
-        self.usergroups = UserGroups(**net_args)
+        self.im = IM(**api_args)
+        self.api = API(**api_args)
+        self.dnd = DND(**api_args)
+        self.rtm = RTM(**api_args)
+        self.auth = Auth(**api_args)
+        self.bots = Bots(**api_args)
+        self.chat = Chat(**api_args)
+        self.team = Team(**api_args)
+        self.pins = Pins(**api_args)
+        self.mpim = MPIM(**api_args)
+        self.users = Users(**api_args)
+        self.files = Files(**api_args)
+        self.stars = Stars(**api_args)
+        self.emoji = Emoji(**api_args)
+        self.search = Search(**api_args)
+        self.groups = Groups(**api_args)
+        self.channels = Channels(**api_args)
+        self.presence = Presence(**api_args)
+        self.reminders = Reminders(**api_args)
+        self.reactions = Reactions(**api_args)
+        self.idpgroups = IDPGroups(**api_args)
+        self.usergroups = UserGroups(**api_args)
         self.incomingwebhook = IncomingWebhook(url=incoming_webhook_url,
                                                timeout=timeout, proxies=proxies)
 
