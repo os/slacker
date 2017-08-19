@@ -30,7 +30,7 @@ __all__ = ['Error', 'Response', 'BaseAPI', 'API', 'Auth', 'Users', 'Groups',
            'Stars', 'Emoji', 'Presence', 'RTM', 'Team', 'Reactions', 'Pins',
            'UserGroups', 'UserGroupsUsers', 'MPIM', 'OAuth', 'DND', 'Bots',
            'FilesComments', 'Reminders', 'TeamProfile', 'UsersProfile',
-           'IDPGroups', 'Slacker']
+           'IDPGroups', 'Apps', 'AppsPermissions', 'Slacker']
 
 
 class Error(Exception):
@@ -917,6 +917,28 @@ class OAuth(BaseAPI):
                          })
 
 
+class AppsPermissions(BaseAPI):
+    def info(self):
+        return self.get('apps.permissions.info')
+
+    def request(self, scopes, trigger_id):
+        return self.post('apps.permissions.request',
+                         data={
+                             scopes: ','.join(scopes),
+                             trigger_id: trigger_id,
+                         })
+
+
+class Apps(BaseAPI):
+    def __init__(self, *args, **kwargs):
+        super(Apps, self).__init__(*args, **kwargs)
+        self._permissions = AppsPermissions(*args, **kwargs)
+
+    @property
+    def permissions(self):
+        return self._permissions
+
+
 class IncomingWebhook(object):
     def __init__(self, url=None, timeout=DEFAULT_TIMEOUT, proxies=None):
         self.url = url
@@ -953,6 +975,7 @@ class Slacker(object):
         self.api = API(**api_args)
         self.dnd = DND(**api_args)
         self.rtm = RTM(**api_args)
+        self.apps = Apps(**api_args)
         self.auth = Auth(**api_args)
         self.bots = Bots(**api_args)
         self.chat = Chat(**api_args)
