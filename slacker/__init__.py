@@ -920,6 +920,17 @@ class OAuth(BaseAPI):
                              'redirect_uri': redirect_uri
                          })
 
+    def token(self, client_id, client_secret, code, redirect_uri=None,
+              single_channel=None):
+        return self.post('oauth.token',
+                         data={
+                             'client_id': client_id,
+                             'client_secret': client_secret,
+                             'code': code,
+                             'redirect_uri': redirect_uri,
+                             'single_channel': single_channel,
+                         })
+
 
 class AppsPermissions(BaseAPI):
     def info(self):
