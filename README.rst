@@ -36,9 +36,6 @@ Examples
     proxy_endpoint = 'http://myproxy:3128'
     slack = Slacker('<your-slack-api-token-goes-here>', http_proxy=proxy_endpoint, https_proxy=proxy_endpoint)
 
-    # Send a message to #general channel
-    slack.chat.post_message('#general', 'Hello fellow slackers!', as_user=True)
-
     # Advanced: Use `request.Session` for connection pooling (reuse)
     from requests.sessions import Session
     with Session() as session:
