@@ -392,6 +392,17 @@ class Chat(BaseAPI):
                              'parse': parse,
                          })
 
+    def unfurl(self, channel, ts, unfurls, user_auth_message=None,
+               user_auth_required=False, user_auth_url=None):
+        return self.post('chat.unfurl',
+                         data={
+                             'channel': channel,
+                             'ts': ts,
+                             'unfurls': unfurls,
+                             'user_auth_message': user_auth_message,
+                             'user_auth_required': user_auth_required,
+                             'user_auth_url': user_auth_url,
+                         })
 
 
 class IM(BaseAPI):
