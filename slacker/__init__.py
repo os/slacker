@@ -290,6 +290,10 @@ class Channels(BaseAPI):
         return self.post('channels.rename',
                          data={'channel': channel, 'name': name})
 
+    def replies(self, channel, thread_ts):
+        return self.get('channels.replies',
+                        params={'channel': channel, 'thread_ts': thread_ts})
+
     def archive(self, channel):
         return self.post('channels.archive', data={'channel': channel})
 
