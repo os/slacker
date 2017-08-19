@@ -34,7 +34,9 @@ Examples
 
     # If you need to proxy the requests
     proxy_endpoint = 'http://myproxy:3128'
-    slack = Slacker('<your-slack-api-token-goes-here>', http_proxy=proxy_endpoint, https_proxy=proxy_endpoint)
+    slack = Slacker('<your-slack-api-token-goes-here>',
+                    http_proxy=proxy_endpoint,
+                    https_proxy=proxy_endpoint)
 
     # Advanced: Use `request.Session` for connection pooling (reuse)
     from requests.sessions import Session
