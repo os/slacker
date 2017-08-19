@@ -376,6 +376,23 @@ class Chat(BaseAPI):
                              'as_user': as_user
                          })
 
+    def post_ephemeral(self, channel, text, user, as_user=None,
+                       attachments=None, link_names=None, parse=None):
+        # Ensure attachments are json encoded
+        if attachments is not None and isinstance(attachments, list):
+            attachments = json.dumps(attachments)
+        return self.post('chat.postEphemeral',
+                         data={
+                             'channel': channel,
+                             'text': text,
+                             'user': user,
+                             'as_user': as_user,
+                             'attachments': attachments,
+                             'link_names': link_names,
+                             'parse': parse,
+                         })
+
+
 
 class IM(BaseAPI):
     def list(self):
