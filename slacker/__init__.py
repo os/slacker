@@ -223,6 +223,10 @@ class Groups(BaseAPI):
         return self.post('groups.rename',
                          data={'channel': channel, 'name': name})
 
+    def replies(self, channel, thread_ts):
+        return self.get('groups.replies',
+                        params={'channel': channel, 'thread_ts': thread_ts})
+
     def archive(self, channel):
         return self.post('groups.archive', data={'channel': channel})
 
