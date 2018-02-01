@@ -26,7 +26,8 @@ __version__ = '0.9.60'
 API_BASE_URL = 'https://slack.com/api/{api}'
 DEFAULT_TIMEOUT = 10
 DEFAULT_RETRIES = 0
-
+# seconds to wait after a 429 error if Slack's API doesn't provide one
+DEFAULT_WAIT = 20
 
 __all__ = ['Error', 'Response', 'BaseAPI', 'API', 'Auth', 'Users', 'Groups',
            'Channels', 'Chat', 'IM', 'IncomingWebhook', 'Search', 'Files',
@@ -78,7 +79,7 @@ class BaseAPI(object):
             # handle HTTP 429 as documented at
             # https://api.slack.com/docs/rate-limits
             elif response.status_code == requests.codes.too_many: # HTTP 429
-                time.sleep(int(response.headers['retry-after']))
+                time.sleep(int(response.headers.get('retry-after', DEFAULT_WAIT)))
                 continue
 
             else:
