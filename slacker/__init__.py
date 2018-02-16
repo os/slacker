@@ -16,6 +16,8 @@ import json
 
 import requests
 
+import time
+
 from slacker.utils import get_item_id_by_name
 
 
@@ -23,7 +25,9 @@ __version__ = '0.9.60'
 
 API_BASE_URL = 'https://slack.com/api/{api}'
 DEFAULT_TIMEOUT = 10
-
+DEFAULT_RETRIES = 0
+# seconds to wait after a 429 error if Slack's API doesn't provide one
+DEFAULT_WAIT = 20
 
 __all__ = ['Error', 'Response', 'BaseAPI', 'API', 'Auth', 'Users', 'Groups',
            'Channels', 'Chat', 'IM', 'IncomingWebhook', 'Search', 'Files',
@@ -50,22 +54,45 @@ class Response(object):
 
 class BaseAPI(object):
     def __init__(self, token=None, timeout=DEFAULT_TIMEOUT, proxies=None,
-                 session=None):
+                 session=None, rate_limit_retries=DEFAULT_RETRIES):
         self.token = token
         self.timeout = timeout
         self.proxies = proxies
         self.session = session
+        self.rate_limit_retries = rate_limit_retries
 
     def _request(self, method, api, **kwargs):
         if self.token:
             kwargs.setdefault('params', {})['token'] = self.token
 
-        response = method(API_BASE_URL.format(api=api),
-                          timeout=self.timeout,
-                          proxies=self.proxies,
-                          **kwargs)
+        # while we have rate limit retries left, fetch the resource and back
+        # off as Slack's HTTP response suggests
+        for retry_num in range(self.rate_limit_retries):
+            response = method(API_BASE_URL.format(api=api),
+                              timeout=self.timeout,
+                              proxies=self.proxies,
+                              **kwargs)
 
-        response.raise_for_status()
+            if response.status_code == requests.codes.ok:
+                break
+
+            # handle HTTP 429 as documented at
+            # https://api.slack.com/docs/rate-limits
+            elif response.status_code == requests.codes.too_many: # HTTP 429
+                time.sleep(int(response.headers.get('retry-after', DEFAULT_WAIT)))
+                continue
+
+            else:
+                response.raise_for_status()
+
+        else:
+            # with no retries left, make one final attempt to fetch the resource,
+            # but do not handle too_many status differently
+            response = method(API_BASE_URL.format(api=api),
+                              timeout=self.timeout,
+                              proxies=self.proxies,
+                              **kwargs)
+            response.raise_for_status()
 
         response = Response(response.text)
         if not response.successful:
@@ -977,7 +1004,7 @@ class Slacker(object):
 
     def __init__(self, token, incoming_webhook_url=None,
                  timeout=DEFAULT_TIMEOUT, http_proxy=None, https_proxy=None,
-                 session=None):
+                 session=None, rate_limit_retries=DEFAULT_RETRIES):
 
         proxies = self.__create_proxies(http_proxy, https_proxy)
         api_args = {
@@ -985,6 +1012,7 @@ class Slacker(object):
             'timeout': timeout,
             'proxies': proxies,
             'session': session,
+            'rate_limit_retries': rate_limit_retries,
         }
         self.im = IM(**api_args)
         self.api = API(**api_args)
