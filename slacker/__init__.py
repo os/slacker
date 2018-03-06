@@ -435,6 +435,13 @@ class Chat(BaseAPI):
                              'user_auth_url': user_auth_url,
                          })
 
+    def get_permalink(self, channel, message_ts):
+        return self.get('chat.getPermalink',
+                        params={
+                            'channel': channel,
+                            'message_ts': message_ts
+                        })
+
 
 class IM(BaseAPI):
     def list(self):
