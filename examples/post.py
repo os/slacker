@@ -14,16 +14,11 @@ def post_slack():
         token = os.environ['SLACK_TOKEN']
         slack = Slacker(token)
 
-        obj = slack.chat.post_message(
-            channel='#general',
-            text='',
-            as_user=True,
-            attachments=[{"pretext": "Subject",
-                          "text": "Body"}])
-        print obj.successful, obj.__dict__['body']['channel'], obj.__dict__[
-            'body']['ts']
-    except KeyError, ex:
-        print 'Environment variable %s not set.' % str(ex)
+        obj = slack.chat.post_message('#general', 'Hello fellow slackers!')
+        print(obj.successful, obj.__dict__['body']['channel'], obj.__dict__[
+            'body']['ts'])
+    except KeyError as ex:
+        print('Environment variable %s not set.' % str(ex))
 
 
 if __name__ == '__main__':

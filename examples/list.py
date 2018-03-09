@@ -18,21 +18,21 @@ def list_slack():
         response = slack.channels.list()
         channels = response.body['channels']
         for channel in channels:
-            print channel['id'], channel['name']
+            print(channel['id'], channel['name'])
             # if not channel['is_archived']:
             # slack.channels.join(channel['name'])
-        print
+        print()
 
         # Get users list
         response = slack.users.list()
         users = response.body['members']
         for user in users:
             if not user['deleted']:
-                print user['id'], user['name'], user['is_admin'], user[
-                    'is_owner']
-        print
-    except KeyError, ex:
-        print 'Environment variable %s not set.' % str(ex)
+                print(user['id'], user['name'], user['is_admin'], user[
+                    'is_owner'])
+        print()
+    except KeyError as ex:
+        print('Environment variable %s not set.' % str(ex))
 
 
 if __name__ == '__main__':
