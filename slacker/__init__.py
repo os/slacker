@@ -184,8 +184,8 @@ class Users(BaseAPI):
     def admin(self):
         return self._admin
 
-    def info(self, user):
-        return self.get('users.info', params={'user': user})
+    def info(self, user, include_locale=False):
+        return self.get('users.info', params={'user': user, 'include_locale': include_locale})
 
     def list(self, presence=False):
         return self.get('users.list', params={'presence': int(presence)})
