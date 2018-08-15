@@ -600,8 +600,9 @@ class Files(BaseAPI):
         }
 
         if file_:
-            with open(file_, 'rb') as f:
-                return self.post('files.upload', data=data, files={'file': f})
+            if type(file_) in types.StringTypes:
+                file_ = open(file_, 'rb')
+            return self.post('files.upload', data=data, files={'file': file_})
         else:
             return self.post('files.upload', data=data)
 
