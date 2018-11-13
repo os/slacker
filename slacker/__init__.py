@@ -140,6 +140,14 @@ class Auth(BaseAPI):
         return self.post('auth.revoke', data={'test': int(test)})
 
 
+class Dialog(BaseAPI):
+    def open(self, dialog, trigger_id):
+        return self.post('dialog.open',
+                         data={
+                             'dialog': json.dumps(dialog),
+                             'trigger_id': trigger_id,
+                         })
+
 class UsersProfile(BaseAPI):
     def get(self, user=None, include_labels=False):
         return super(UsersProfile, self).get(
@@ -1037,6 +1045,7 @@ class Slacker(object):
         self.auth = Auth(**api_args)
         self.bots = Bots(**api_args)
         self.chat = Chat(**api_args)
+        self.dialog = Dialog(**api_args)
         self.team = Team(**api_args)
         self.pins = Pins(**api_args)
         self.mpim = MPIM(**api_args)
