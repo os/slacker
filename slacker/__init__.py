@@ -148,6 +148,7 @@ class Dialog(BaseAPI):
                              'trigger_id': trigger_id,
                          })
 
+
 class UsersProfile(BaseAPI):
     def get(self, user=None, include_labels=False):
         return super(UsersProfile, self).get(
