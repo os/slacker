@@ -34,7 +34,7 @@ __all__ = ['Error', 'Response', 'BaseAPI', 'API', 'Auth', 'Users', 'Groups',
            'Stars', 'Emoji', 'Presence', 'RTM', 'Team', 'Reactions', 'Pins',
            'UserGroups', 'UserGroupsUsers', 'MPIM', 'OAuth', 'DND', 'Bots',
            'FilesComments', 'Reminders', 'TeamProfile', 'UsersProfile',
-           'IDPGroups', 'Apps', 'AppsPermissions', 'Slacker']
+           'IDPGroups', 'Apps', 'AppsPermissions', 'Slacker', 'Dialog']
 
 
 class Error(Exception):
