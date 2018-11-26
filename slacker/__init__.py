@@ -601,8 +601,14 @@ class Files(BaseAPI):
 
         if file_:
             if isinstance(file_, str):
-                file_ = open(file_, 'rb')
-            return self.post('files.upload', data=data, files={'file': file_})
+                with open(file_, 'rb') as f:
+                    return self.post(
+                        'files.upload', data=data, files={'file': f}
+                    )
+
+            return self.post(
+                'files.upload', data=data, files={'file': file_}
+            )
         else:
             return self.post('files.upload', data=data)
 
