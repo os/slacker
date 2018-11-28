@@ -5,6 +5,7 @@ Slacker
 |pypi|_
 |build status|_
 |pypi downloads|_
+|license|_
 |gitter chat|_
 
 .. image:: https://raw.githubusercontent.com/os/slacker/master/static/slacker.jpg
@@ -66,5 +67,7 @@ https://api.slack.com/methods
 .. _pypi downloads: https://pypi.org/project/slacker/
 .. |pypi| image:: https://img.shields.io/pypi/v/Slacker.svg
 .. _pypi: https://pypi.python.org/pypi/slacker/
+.. |license| image:: https://img.shields.io/github/license/os/slacker.svg
+.. _license: https://pypi.org/project/slacker/
 .. |gitter chat| image:: https://badges.gitter.im/Join%20Chat.svg
 .. _gitter chat: https://gitter.im/os/slacker?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge
