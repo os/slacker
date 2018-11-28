@@ -21,7 +21,7 @@ import time
 from slacker.utils import get_item_id_by_name
 
 
-__version__ = '0.10.0'
+__version__ = '0.11.0'
 
 API_BASE_URL = 'https://slack.com/api/{api}'
 DEFAULT_TIMEOUT = 10
