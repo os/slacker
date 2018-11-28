@@ -1,11 +1,17 @@
 from setuptools import setup
 
 
+with open('README.rst') as f:
+    readme = f.read()
+
+
 setup(
     name='slacker',
     version='0.10.0',
     packages=['slacker'],
     description='Slack API client',
+    long_description=readme,
+    long_description_content_type='text/x-rst',
     author='Oktay Sancak',
     author_email='oktaysancak@gmail.com',
     url='http://github.com/os/slacker/',
