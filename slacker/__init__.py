@@ -708,9 +708,13 @@ class Team(BaseAPI):
     def info(self):
         return self.get('team.info')
 
-    def access_logs(self, count=None, page=None):
+    def access_logs(self, count=None, page=None, before=None):
         return self.get('team.accessLogs',
-                        params={'count': count, 'page': page})
+                        params={
+                            'count': count,
+                            'page': page,
+                            'before': before
+                        })
 
     def integration_logs(self, service_id=None, app_id=None, user=None,
                          change_type=None, count=None, page=None):
