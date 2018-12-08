@@ -7,7 +7,7 @@ with open('README.rst') as f:
 
 setup(
     name='slacker',
-    version='0.11.0',
+    version='0.12.0',
     packages=['slacker'],
     description='Slack API client',
     long_description=readme,
