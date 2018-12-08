@@ -595,7 +595,7 @@ class Files(BaseAPI):
                         params={'file': file_, 'count': count, 'page': page})
 
     def upload(self, file_=None, content=None, filetype=None, filename=None,
-               title=None, initial_comment=None, channels=None):
+               title=None, initial_comment=None, channels=None, thread_ts=None):
         if isinstance(channels, (tuple, list)):
             channels = ','.join(channels)
 
@@ -605,7 +605,8 @@ class Files(BaseAPI):
             'filename': filename,
             'title': title,
             'initial_comment': initial_comment,
-            'channels': channels
+            'channels': channels,
+            'thread_ts': thread_ts
         }
 
         if file_:
