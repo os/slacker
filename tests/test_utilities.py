@@ -1,6 +1,6 @@
 import unittest
 
-from slacker.utils import get_item_id_by_name
+from slacker.utilities import get_item_id_by_name
 
 
 class TestGetItemIDByName(unittest.TestCase):
