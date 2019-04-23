@@ -467,7 +467,7 @@ class IM(BaseAPI):
                             'oldest': oldest,
                             'count': count,
                             'inclusive': inclusive,
-                            'unreads' : int(unreads)
+                            'unreads': int(unreads)
                         })
 
     def replies(self, channel, thread_ts):
