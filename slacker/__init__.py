@@ -36,7 +36,8 @@ __all__ = ['Error', 'Response', 'BaseAPI', 'API', 'Auth', 'Users', 'Groups',
            'Stars', 'Emoji', 'Presence', 'RTM', 'Team', 'Reactions', 'Pins',
            'UserGroups', 'UserGroupsUsers', 'MPIM', 'OAuth', 'DND', 'Bots',
            'FilesComments', 'Reminders', 'TeamProfile', 'UsersProfile',
-           'IDPGroups', 'Apps', 'AppsPermissions', 'Slacker', 'Dialog']
+           'IDPGroups', 'Apps', 'AppsPermissions', 'Slacker', 'Dialog',
+           'Conversations']
 
 
 class Error(Exception):
@@ -140,6 +141,133 @@ class Auth(BaseAPI):
 
     def revoke(self, test=True):
         return self.post('auth.revoke', data={'test': int(test)})
+
+
+class Conversations(BaseAPI):
+    def archive(self, channel):
+        return self.post('conversations.archive', data={'channel': channel})
+
+    def close(self, channel):
+        return self.post('conversations.close', data={'channel': channel})
+
+    def create(self, name, user_ids=None, is_private=None):
+        if isinstance(user_ids, (list, tuple)):
+            user_ids = ','.join(user_ids)
+
+        return self.post(
+            'conversations.create',
+            data={'name': name, 'user_ids': user_ids, 'is_private': is_private}
+        )
+
+    def history(self, channel, cursor=None, inclusive=None, latest=None,
+                oldest=None, limit=None):
+        return self.get(
+            'conversations.history',
+            params={
+                'channel': channel,
+                'cursor': cursor,
+                'inclusive': inclusive,
+                'latest': latest,
+                'oldest': oldest,
+                'limit': limit
+            }
+        )
+
+    def info(self, channel, include_locale=None, include_num_members=None):
+        return self.get(
+            'conversations.info',
+            params={
+                'channel': channel,
+                'include_locale': include_locale,
+                'include_num_members': include_num_members
+            }
+        )
+
+    def invite(self, channel, users):
+        if isinstance(users, (list, tuple)):
+            users = ','.join(users)
+
+        return self.post(
+            'conversations.invite',
+            data={'channel': channel, 'users': users}
+        )
+
+    def join(self, channel):
+        return self.post('conversations.join', data={'channel': channel})
+
+    def kick(self, channel, user):
+        return self.post(
+            'conversations.kick',
+            data={'channel': channel, 'user': user}
+        )
+
+    def leave(self, channel):
+        return self.post('conversations.leave', data={'channel': channel})
+
+    def list(self, cursor=None, exclude_archived=None, types=None, limit=None):
+        if isinstance(types, (list, tuple)):
+            types = ','.join(types)
+
+        return self.get(
+            'conversations.list',
+            params={
+                'cursor': cursor,
+                'exclude_archived': exclude_archived,
+                'types': types,
+                'limit': limit
+            }
+        )
+
+    def members(self, channel, cursor=None, limit=None):
+        return self.get(
+            'conversations.members',
+            params={'channel': channel, 'cursor': cursor, 'limit': limit}
+        )
+
+    def open(self, channel=None, users=None, return_im=None):
+        if isinstance(users, (list, tuple)):
+            users = ','.join(users)
+
+        return self.post(
+            'conversations.open',
+            data={'channel': channel, 'users': users, 'return_im': return_im}
+        )
+
+    def rename(self, channel, name):
+        return self.post(
+            'conversations.rename',
+            data={'channel': channel, 'name': name}
+        )
+
+    def replies(self, channel, ts, cursor=None, inclusive=None, latest=None,
+                oldest=None, limit=None):
+        return self.get(
+            'conversations.replies',
+            params={
+                'channel': channel,
+                'ts': ts,
+                'cursor': cursor,
+                'inclusive': inclusive,
+                'latest': latest,
+                'oldest': oldest,
+                'limit': limit
+            }
+        )
+
+    def set_purpose(self, channel, purpose):
+        return self.post(
+            'conversations.setPurpose',
+            data={'channel': channel, 'purpose': purpose}
+        )
+
+    def set_topic(self, channel, topic):
+        return self.post(
+            'conversations.setTopic',
+            data={'channel': channel, 'topic': topic}
+        )
+
+    def unarchive(self, channel):
+        return self.post('conversations.unarchive', data={'channel': channel})
 
 
 class Dialog(BaseAPI):
@@ -1072,6 +1200,7 @@ class Slacker(object):
         self.reactions = Reactions(**api_args)
         self.idpgroups = IDPGroups(**api_args)
         self.usergroups = UserGroups(**api_args)
+        self.conversations = Conversations(**api_args)
         self.incomingwebhook = IncomingWebhook(url=incoming_webhook_url,
                                                timeout=timeout, proxies=proxies)
 
