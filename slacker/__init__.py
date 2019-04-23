@@ -750,8 +750,8 @@ class Files(BaseAPI):
             return self.post(
                 'files.upload', data=data, files={'file': file_}
             )
-        else:
-            return self.post('files.upload', data=data)
+
+        return self.post('files.upload', data=data)
 
     def delete(self, file_):
         return self.post('files.delete', data={'file': file_})
