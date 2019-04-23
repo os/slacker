@@ -1,9 +1,11 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 import json
+from mock import (
+    Mock,
+    patch,
+)
 import unittest
-
-from mock import patch, Mock
 
 from slacker import Channels
 
