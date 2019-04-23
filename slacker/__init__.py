@@ -79,13 +79,15 @@ class BaseAPI(object):
             # handle HTTP 429 as documented at
             # https://api.slack.com/docs/rate-limits
             if response.status_code == requests.codes.too_many:
-                time.sleep(int(response.headers.get('retry-after', DEFAULT_WAIT)))
+                time.sleep(int(
+                    response.headers.get('retry-after', DEFAULT_WAIT)
+                ))
                 continue
 
             response.raise_for_status()
         else:
-            # with no retries left, make one final attempt to fetch the resource,
-            # but do not handle too_many status differently
+            # with no retries left, make one final attempt to fetch the
+            # resource, but do not handle too_many status differently
             response = method(API_BASE_URL.format(api=api),
                               timeout=self.timeout,
                               proxies=self.proxies,
@@ -192,7 +194,8 @@ class Users(BaseAPI):
         return self._admin
 
     def info(self, user, include_locale=False):
-        return self.get('users.info', params={'user': user, 'include_locale': include_locale})
+        return self.get('users.info',
+                        params={'user': user, 'include_locale': include_locale})
 
     def list(self, presence=False):
         return self.get('users.list', params={'presence': int(presence)})
@@ -646,7 +649,8 @@ class Stars(BaseAPI):
         return self.get('stars.list',
                         params={'user': user, 'count': count, 'page': page})
 
-    def remove(self, file_=None, file_comment=None, channel=None, timestamp=None):
+    def remove(self, file_=None, file_comment=None, channel=None,
+               timestamp=None):
         assert file_ or file_comment or channel
 
         return self.post('stars.remove',
@@ -844,7 +848,8 @@ class UserGroups(BaseAPI):
     def users(self):
         return self._users
 
-    def list(self, include_disabled=None, include_count=None, include_users=None):
+    def list(self, include_disabled=None, include_count=None,
+             include_users=None):
         if isinstance(include_disabled, bool):
             include_disabled = int(include_disabled)
 
