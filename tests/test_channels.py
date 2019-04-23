@@ -28,9 +28,7 @@ class TestUtils(unittest.TestCase):
             status=200
         )
         channels = Channels(token='aaa')
-        self.assertEqual(
-            'C111', channels.get_channel_id('general')
-        )
+        self.assertEqual(channels.get_channel_id('general'), 'C111')
 
     @responses.activate
     def test_get_channel_id_without_channel(self):
@@ -48,6 +46,4 @@ class TestUtils(unittest.TestCase):
             status=200
         )
         channels = Channels(token='aaa')
-        self.assertEqual(
-            None, channels.get_channel_id('fake_group')
-        )
+        self.assertEqual(channels.get_channel_id('fake_group'), None)
