@@ -78,13 +78,11 @@ class BaseAPI(object):
 
             # handle HTTP 429 as documented at
             # https://api.slack.com/docs/rate-limits
-            elif response.status_code == requests.codes.too_many: # HTTP 429
+            if response.status_code == requests.codes.too_many:
                 time.sleep(int(response.headers.get('retry-after', DEFAULT_WAIT)))
                 continue
 
-            else:
-                response.raise_for_status()
-
+            response.raise_for_status()
         else:
             # with no retries left, make one final attempt to fetch the resource,
             # but do not handle too_many status differently
