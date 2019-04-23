@@ -560,13 +560,13 @@ class FilesComments(BaseAPI):
         return self.post('files.comments.add',
                          data={'file': file_, 'comment': comment})
 
-    def delete(self, file_, id):
+    def delete(self, file_, id_):
         return self.post('files.comments.delete',
-                         data={'file': file_, 'id': id})
+                         data={'file': file_, 'id': id_})
 
-    def edit(self, file_, id, comment):
+    def edit(self, file_, id_, comment):
         return self.post('files.comments.edit',
-                         data={'file': file_, 'id': id, 'comment': comment})
+                         data={'file': file_, 'id': id_, 'comment': comment})
 
 
 class Files(BaseAPI):
