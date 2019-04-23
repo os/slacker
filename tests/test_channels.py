@@ -11,9 +11,9 @@ from slacker import (
 )
 
 
-class TestUtils(unittest.TestCase):
+class TestChannels(unittest.TestCase):
     @responses.activate
-    def test_get_channel_id(self):
+    def test_valid_ids_return_channel_id(self):
         response = {
             'ok': 'true',
             'channels': [
@@ -31,7 +31,7 @@ class TestUtils(unittest.TestCase):
         self.assertEqual(channels.get_channel_id('general'), 'C111')
 
     @responses.activate
-    def test_get_channel_id_without_channel(self):
+    def test_invalid_channel_ids_return_none(self):
         response = {
             'ok': 'true',
             'channels': [
