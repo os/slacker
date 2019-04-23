@@ -1,54 +1,53 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 import json
-from mock import (
-    Mock,
-    patch,
-)
 import unittest
 
-from slacker import Channels
+import responses
+
+from slacker import (
+    API_BASE_URL,
+    Channels,
+)
 
 
 class TestUtils(unittest.TestCase):
-    @patch('slacker.requests')
-    def test_get_channel_id(self, mock_requests):
-        text = {
+    @responses.activate
+    def test_get_channel_id(self):
+        response = {
             'ok': 'true',
             'channels': [
                 {'name': 'general', 'id': 'C111'},
                 {'name': 'random', 'id': 'C222'}
             ]
         }
-        json_to_text = json.dumps(text)
-
-        mock_requests.get.return_value = Mock(
-            status_code=200, text=json_to_text,
+        responses.add(
+            responses.GET,
+            API_BASE_URL.format(api='channels.list'),
+            json=response,
+            status=200
         )
-
         channels = Channels(token='aaa')
-
         self.assertEqual(
             'C111', channels.get_channel_id('general')
         )
 
-    @patch('slacker.requests')
-    def test_get_channel_id_without_channel(self, mock_requests):
-        text = {
+    @responses.activate
+    def test_get_channel_id_without_channel(self):
+        response = {
             'ok': 'true',
             'channels': [
                 {'name': 'general', 'id': 'C111'},
                 {'name': 'random', 'id': 'C222'}
             ]
         }
-        json_to_text = json.dumps(text)
-
-        mock_requests.get.return_value = Mock(
-            status_code=200, text=json_to_text,
+        responses.add(
+            responses.GET,
+            API_BASE_URL.format(api='channels.list'),
+            json=response,
+            status=200
         )
-
         channels = Channels(token='aaa')
-
         self.assertEqual(
             None, channels.get_channel_id('fake_group')
         )

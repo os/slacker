@@ -2,7 +2,6 @@ certifi==2019.3.9
 chardet==3.0.4
 filelock==3.0.10
 idna==2.8
-mock==1.0.1
 pluggy==0.9.0
 py==1.8.0
 requests>=2.2.1
