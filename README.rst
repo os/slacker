@@ -16,6 +16,13 @@ About
 Slacker is a full-featured Python interface for the `Slack API
 <https://api.slack.com/>`_.
 
+Installation
+============
+
+.. code-block:: bash
+
+    $ pip install slacker
+
 Examples
 ========
 .. code-block:: python
@@ -48,12 +55,6 @@ Examples
         slack.chat.post_message('#general', 'go through')
         slack.chat.post_message('#general', 'a single https connection')
 
-Installation
-============
-
-.. code-block:: bash
-
-    $ pip install slacker
 
 Documentation
 =============
