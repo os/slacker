@@ -61,17 +61,17 @@ class BaseAPI(object):
         self.session = session
         self.rate_limit_retries = rate_limit_retries
 
-    def _request(self, method, api, **kwargs):
+    def _request(self, request_method, api, **kwargs):
         if self.token:
             kwargs.setdefault('params', {})['token'] = self.token
 
         # while we have rate limit retries left, fetch the resource and back
         # off as Slack's HTTP response suggests
         for retry_num in range(self.rate_limit_retries):
-            response = method(API_BASE_URL.format(api=api),
-                              timeout=self.timeout,
-                              proxies=self.proxies,
-                              **kwargs)
+            response = request_method(API_BASE_URL.format(api=api),
+                                      timeout=self.timeout,
+                                      proxies=self.proxies,
+                                      **kwargs)
 
             if response.status_code == requests.codes.ok:
                 break
@@ -88,10 +88,10 @@ class BaseAPI(object):
         else:
             # with no retries left, make one final attempt to fetch the
             # resource, but do not handle too_many status differently
-            response = method(API_BASE_URL.format(api=api),
-                              timeout=self.timeout,
-                              proxies=self.proxies,
-                              **kwargs)
+            response = request_method(API_BASE_URL.format(api=api),
+                                      timeout=self.timeout,
+                                      proxies=self.proxies,
+                                      **kwargs)
             response.raise_for_status()
 
         response = Response(response.text)
