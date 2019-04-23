@@ -18,12 +18,14 @@ import requests
 
 import time
 
-from slacker.utilities import get_item_id_by_name
+from slacker.utilities import (
+    get_item_id_by_name,
+    get_api_url,
+)
 
 
 __version__ = '0.12.0'
 
-API_BASE_URL = 'https://slack.com/api/{api}'
 DEFAULT_TIMEOUT = 10
 DEFAULT_RETRIES = 0
 # seconds to wait after a 429 error if Slack's API doesn't provide one
@@ -61,17 +63,18 @@ class BaseAPI(object):
         self.session = session
         self.rate_limit_retries = rate_limit_retries
 
-    def _request(self, request_method, api, **kwargs):
+    def _request(self, request_method, method, **kwargs):
         if self.token:
             kwargs.setdefault('params', {})['token'] = self.token
+
+        url = get_api_url(method)
 
         # while we have rate limit retries left, fetch the resource and back
         # off as Slack's HTTP response suggests
         for retry_num in range(self.rate_limit_retries):
-            response = request_method(API_BASE_URL.format(api=api),
-                                      timeout=self.timeout,
-                                      proxies=self.proxies,
-                                      **kwargs)
+            response = request_method(
+                url, timeout=self.timeout, proxies=self.proxies, **kwargs
+            )
 
             if response.status_code == requests.codes.ok:
                 break
@@ -88,10 +91,9 @@ class BaseAPI(object):
         else:
             # with no retries left, make one final attempt to fetch the
             # resource, but do not handle too_many status differently
-            response = request_method(API_BASE_URL.format(api=api),
-                                      timeout=self.timeout,
-                                      proxies=self.proxies,
-                                      **kwargs)
+            response = request_method(
+                url, timeout=self.timeout, proxies=self.proxies, **kwargs
+            )
             response.raise_for_status()
 
         response = Response(response.text)

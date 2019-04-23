@@ -4,10 +4,8 @@ import unittest
 
 import responses
 
-from slacker import (
-    API_BASE_URL,
-    Channels,
-)
+from slacker import Channels
+from slacker.utilities import get_api_url
 
 
 class TestChannels(unittest.TestCase):
@@ -22,7 +20,7 @@ class TestChannels(unittest.TestCase):
         }
         responses.add(
             responses.GET,
-            API_BASE_URL.format(api='channels.list'),
+            get_api_url('channels.list'),
             json=response,
             status=200
         )
@@ -40,7 +38,7 @@ class TestChannels(unittest.TestCase):
         }
         responses.add(
             responses.GET,
-            API_BASE_URL.format(api='channels.list'),
+            get_api_url('channels.list'),
             json=response,
             status=200
         )
