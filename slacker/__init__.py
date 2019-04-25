@@ -37,7 +37,7 @@ __all__ = ['Error', 'Response', 'BaseAPI', 'API', 'Auth', 'Users', 'Groups',
            'UserGroups', 'UserGroupsUsers', 'MPIM', 'OAuth', 'DND', 'Bots',
            'FilesComments', 'Reminders', 'TeamProfile', 'UsersProfile',
            'IDPGroups', 'Apps', 'AppsPermissions', 'Slacker', 'Dialog',
-           'Conversations']
+           'Conversations', 'Migration']
 
 
 class Error(Exception):
@@ -1067,6 +1067,16 @@ class DND(BaseAPI):
         return self.post('dnd.endSnooze')
 
 
+class Migration(BaseAPI):
+    def exchange(self, users, to_old=False):
+        if isinstance(users, (list, tuple)):
+            users = ','.join(users)
+
+        return self.get(
+            'migration.exchange', params={'users': users, 'to_old': to_old}
+        )
+
+
 class Reminders(BaseAPI):
     def add(self, text, time, user=None):
         return self.post('reminders.add', data={
@@ -1203,6 +1213,7 @@ class Slacker(object):
         self.channels = Channels(**api_args)
         self.presence = Presence(**api_args)
         self.reminders = Reminders(**api_args)
+        self.migration = Migration(**api_args)
         self.reactions = Reactions(**api_args)
         self.idpgroups = IDPGroups(**api_args)
         self.usergroups = UserGroups(**api_args)
