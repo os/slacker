@@ -1142,6 +1142,12 @@ class Apps(BaseAPI):
     def permissions(self):
         return self._permissions
 
+    def uninstall(self, client_id, client_secret):
+        return self.get(
+            'apps.uninstall',
+            params={'client_id': client_id, 'client_secret': client_secret}
+        )
+
 
 class IncomingWebhook(object):
     def __init__(self, url=None, timeout=DEFAULT_TIMEOUT, proxies=None):
