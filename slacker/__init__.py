@@ -24,7 +24,7 @@ from slacker.utilities import (
 )
 
 
-__version__ = '0.12.0'
+__version__ = '0.13.0'
 
 DEFAULT_TIMEOUT = 10
 DEFAULT_RETRIES = 0
