@@ -488,7 +488,7 @@ class Chat(BaseAPI):
     def post_message(self, channel, text=None, username=None, as_user=None,
                      parse=None, link_names=None, attachments=None,
                      unfurl_links=None, unfurl_media=None, icon_url=None,
-                     icon_emoji=None, thread_ts=None, reply_broadcast=None):
+                     icon_emoji=None, thread_ts=None, reply_broadcast=None, blocks=None):
 
         # Ensure attachments are json encoded
         if attachments:
@@ -509,7 +509,8 @@ class Chat(BaseAPI):
                              'icon_url': icon_url,
                              'icon_emoji': icon_emoji,
                              'thread_ts': thread_ts,
-                             'reply_broadcast': reply_broadcast
+                             'reply_broadcast': reply_broadcast,
+                             'blocks': blocks
                          })
 
     def me_message(self, channel, text):
@@ -525,7 +526,7 @@ class Chat(BaseAPI):
                          })
 
     def update(self, channel, ts, text, attachments=None, parse=None,
-               link_names=False, as_user=None):
+               link_names=False, as_user=None, blocks=None):
         # Ensure attachments are json encoded
         if attachments is not None and isinstance(attachments, list):
             attachments = json.dumps(attachments)
@@ -538,6 +539,7 @@ class Chat(BaseAPI):
                              'parse': parse,
                              'link_names': int(link_names),
                              'as_user': as_user,
+                             'blocks': blocks
                          })
 
     def delete(self, channel, ts, as_user=False):
@@ -549,7 +551,7 @@ class Chat(BaseAPI):
                          })
 
     def post_ephemeral(self, channel, text, user, as_user=None,
-                       attachments=None, link_names=None, parse=None):
+                       attachments=None, link_names=None, parse=None, blocks=None):
         # Ensure attachments are json encoded
         if attachments is not None and isinstance(attachments, list):
             attachments = json.dumps(attachments)
@@ -562,6 +564,7 @@ class Chat(BaseAPI):
                              'attachments': attachments,
                              'link_names': link_names,
                              'parse': parse,
+                             'blocks': blocks
                          })
 
     def unfurl(self, channel, ts, unfurls, user_auth_message=None,
