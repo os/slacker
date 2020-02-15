@@ -488,7 +488,8 @@ class Chat(BaseAPI):
     def post_message(self, channel, text=None, username=None, as_user=None,
                      parse=None, link_names=None, attachments=None,
                      unfurl_links=None, unfurl_media=None, icon_url=None,
-                     icon_emoji=None, thread_ts=None, reply_broadcast=None, blocks=None):
+                     icon_emoji=None, thread_ts=None, reply_broadcast=None,
+                     blocks=None, mrkdwn=True):
 
         # Ensure attachments are json encoded
         if attachments:
@@ -510,7 +511,8 @@ class Chat(BaseAPI):
                              'icon_emoji': icon_emoji,
                              'thread_ts': thread_ts,
                              'reply_broadcast': reply_broadcast,
-                             'blocks': blocks
+                             'blocks': blocks,
+                             'mrkdwn': mrkdwn,
                          })
 
     def me_message(self, channel, text):
